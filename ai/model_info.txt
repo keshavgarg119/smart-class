@@ -1,0 +1,74 @@
+# Face Recognition Model Information
+
+## Model Details
+
+### Library: face_recognition
+- **Version**: 1.3.0
+- **Backend**: dlib (deep learning library)
+- **Model Type**: ResNet-based deep neural network
+
+### Face Detection
+- **Method**: HOG (Histogram of Oriented Gradients) or CNN
+- **Accuracy**: Very high detection rate for frontal faces
+- **Speed**: HOG is faster but less accurate, CNN is more accurate but slower
+
+### Face Encoding
+- **Encoding Size**: 128-dimensional vector
+- **Model**: ResNet-34 trained on millions of faces
+- **Accuracy**: 99.38% on Labeled Faces in the Wild (LFW) benchmark
+
+## Configuration
+
+### Tolerance Setting
+- **Default**: 0.6
+- **Range**: 0.0 to 1.0
+- **Lower values**: More strict matching (fewer false positives)
+- **Higher values**: More lenient matching (more false positives)
+
+### Recommended Settings
+- **High Security**: tolerance = 0.4 - 0.5
+- **Balanced**: tolerance = 0.6 (default)
+- **Lenient**: tolerance = 0.7 - 0.8
+
+## Performance
+
+### Processing Speed
+- **Face Detection**: ~50-100ms per image (HOG)
+- **Face Encoding**: ~100-200ms per image
+- **Face Comparison**: ~1-5ms per comparison
+
+### Hardware Requirements
+- **Minimum**: 4GB RAM, dual-core processor
+- **Recommended**: 8GB RAM, quad-core processor
+- **Optional**: GPU for faster CNN-based detection
+
+## Best Practices
+
+1. **Image Quality**
+   - Use high-resolution images (minimum 640x480)
+   - Ensure good lighting conditions
+   - Avoid extreme angles or occlusions
+   
+2. **Database Management**
+   - Store one encoding per person
+   - Update encodings if appearance changes significantly
+   - Maintain consistent image quality across all encodings
+
+3. **Security**
+   - Store encodings securely (encrypted if possible)
+   - Implement rate limiting for recognition attempts
+   - Log all recognition attempts for audit purposes
+
+## Limitations
+
+- Performance degrades with poor lighting
+- Accuracy drops with extreme facial angles (>30 degrees)
+- May struggle with masks, sunglasses, or other face coverings
+- Twins or very similar faces may be confused
+
+## Future Improvements
+
+- Implement liveness detection to prevent photo spoofing
+- Add multi-face tracking for batch attendance
+- Integrate with mobile apps for on-the-go recognition
+- Implement age-based model updates
