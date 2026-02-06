@@ -173,7 +173,7 @@ Your Name - Initial work
 
 ## 📞 Support
 
-For support, email your-email@example.com or open an issue in the repository.
+For support, email kgarg2_be23@thapar.edu or open an issue in the repository.
 
 ## 🗺️ Roadmap
 
