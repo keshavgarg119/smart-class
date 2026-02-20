@@ -1,13 +1,20 @@
 from fastapi import UploadFile
-import face_recognition
 import numpy as np
 from sqlalchemy.orm import Session
 from app.models.student_model import Student
 from app.config import settings
 import pickle
 
+# Lazy import – face_recognition may not be installed
+try:
+    import face_recognition
+except ImportError:
+    face_recognition = None
+
 async def encode_face(file: UploadFile):
     """Encode face from uploaded image"""
+    if face_recognition is None:
+        raise ImportError("face_recognition library is not installed")
     try:
         # Read image file
         contents = await file.read()
@@ -40,6 +47,8 @@ async def encode_face(file: UploadFile):
 
 async def recognize_face(file: UploadFile, db: Session):
     """Recognize face from uploaded image"""
+    if face_recognition is None:
+        return {"success": False, "message": "face_recognition library is not installed"}
     try:
         # Encode the uploaded face
         uploaded_encoding_bytes = await encode_face(file)

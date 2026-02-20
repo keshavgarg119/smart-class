@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\kesha\Desktop\smart-laundry-system\backend\venv"
+VIRTUAL_ENV="C:\Users\kesha\Desktop\smart-class\backend\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

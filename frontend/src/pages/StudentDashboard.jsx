@@ -3,36 +3,49 @@ import Navbar from '../components/Navbar';
 import StatCard from '../components/StatCard';
 import { FaCheckCircle, FaTimesCircle, FaClock, FaChartLine } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
+import * as attendanceService from '../services/attendanceService';
 import '../styles/dashboard.css';
 
 const StudentDashboard = () => {
     const { user } = useAuth();
-    const [stats, setStats] = useState({
-        overallAttendance: 85.5,
-        totalClasses: 120,
-        present: 102,
-        absent: 18,
-        recentRecords: [
-            { id: 1, subject: 'Data Structures', date: '2026-02-06', status: 'present' },
-            { id: 2, subject: 'Web Development', date: '2026-02-06', status: 'present' },
-            { id: 3, subject: 'Database Systems', date: '2026-02-05', status: 'absent' },
-            { id: 4, subject: 'Computer Networks', date: '2026-02-05', status: 'present' },
-            { id: 5, subject: 'Operating Systems', date: '2026-02-04', status: 'present' }
-        ],
-        subjectWise: [
-            { subject: 'Data Structures', percentage: 92, status: 'good' },
-            { subject: 'Web Development', percentage: 88, status: 'good' },
-            { subject: 'Database Systems', percentage: 78, status: 'warning' },
-            { subject: 'Computer Networks', percentage: 85, status: 'good' },
-            { subject: 'Operating Systems', percentage: 82, status: 'good' }
-        ]
-    });
+    const [stats, setStats] = useState(null);
+    const [records, setRecords] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        if (user?.id) fetchData();
+    }, [user]);
+
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const [statsData, recordsData] = await Promise.all([
+                attendanceService.getStudentStats(user.id),
+                attendanceService.getAttendanceRecords({ studentId: user.id, limit: 10 }),
+            ]);
+            setStats(statsData);
+            setRecords(recordsData);
+        } catch (err) {
+            setError('Failed to load attendance data. Please try again.');
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const getAttendanceStatus = (percentage) => {
-        if (percentage >= 90) return 'good';
+        if (percentage >= 90) return 'success';
         if (percentage >= 75) return 'warning';
         return 'danger';
     };
+
+    const overallPct = stats?.percentage ?? 0;
+    const totalClasses = stats?.total_classes ?? 0;
+    const present = stats?.present ?? 0;
+    const absent = stats?.absent ?? 0;
+    const subjects = stats?.subjects ?? [];
 
     return (
         <div className="dashboard">
@@ -41,105 +54,139 @@ const StudentDashboard = () => {
             <div className="dashboard-container">
                 <div className="dashboard-header">
                     <div>
-                        <h1 className="dashboard-title">Welcome back, {user?.name}!</h1>
+                        <h1 className="dashboard-title">
+                            Welcome back, {user?.full_name || user?.username}!
+                        </h1>
                         <p className="dashboard-subtitle">Track your attendance and academic progress</p>
                     </div>
+                    <button className="btn btn-outline" onClick={fetchData}>↻ Refresh</button>
                 </div>
 
-                <div className="dashboard-stats grid grid-cols-4">
-                    <StatCard
-                        title="Overall Attendance"
-                        value={`${stats.overallAttendance}%`}
-                        icon={FaChartLine}
-                        iconColor={getAttendanceStatus(stats.overallAttendance)}
-                        trend={stats.overallAttendance >= 75 ? 'up' : 'down'}
-                        trendValue={stats.overallAttendance >= 75 ? 'Above minimum' : 'Below minimum'}
-                    />
-                    <StatCard
-                        title="Total Classes"
-                        value={stats.totalClasses}
-                        icon={FaClock}
-                        iconColor="primary"
-                        description="This semester"
-                    />
-                    <StatCard
-                        title="Present"
-                        value={stats.present}
-                        icon={FaCheckCircle}
-                        iconColor="success"
-                        description={`${((stats.present / stats.totalClasses) * 100).toFixed(1)}% of classes`}
-                    />
-                    <StatCard
-                        title="Absent"
-                        value={stats.absent}
-                        icon={FaTimesCircle}
-                        iconColor="danger"
-                        description={`${((stats.absent / stats.totalClasses) * 100).toFixed(1)}% of classes`}
-                    />
-                </div>
+                {error && (
+                    <div className="alert alert-danger">
+                        {error}
+                    </div>
+                )}
 
-                <div className="dashboard-content-grid">
-                    <div className="dashboard-section">
-                        <div className="section-header">
-                            <h2>Subject-wise Attendance</h2>
+                {loading ? (
+                    <div className="loading-wrapper" style={{ textAlign: 'center', padding: '3rem' }}>
+                        <div className="spinner" style={{ margin: '0 auto' }} />
+                        <p style={{ marginTop: '1rem', color: 'var(--gray-500)' }}>Loading your data…</p>
+                    </div>
+                ) : (
+                    <>
+                        <div className="dashboard-stats grid grid-cols-4">
+                            <StatCard
+                                title="Overall Attendance"
+                                value={`${overallPct.toFixed(1)}%`}
+                                icon={FaChartLine}
+                                iconColor={getAttendanceStatus(overallPct)}
+                                trend={overallPct >= 75 ? 'up' : 'down'}
+                                trendValue={overallPct >= 75 ? 'Above minimum' : 'Below minimum'}
+                            />
+                            <StatCard
+                                title="Total Classes"
+                                value={totalClasses}
+                                icon={FaClock}
+                                iconColor="primary"
+                                description="This semester"
+                            />
+                            <StatCard
+                                title="Present"
+                                value={present}
+                                icon={FaCheckCircle}
+                                iconColor="success"
+                                description={totalClasses ? `${((present / totalClasses) * 100).toFixed(1)}% of classes` : '—'}
+                            />
+                            <StatCard
+                                title="Absent"
+                                value={absent}
+                                icon={FaTimesCircle}
+                                iconColor="danger"
+                                description={totalClasses ? `${((absent / totalClasses) * 100).toFixed(1)}% of classes` : '—'}
+                            />
                         </div>
-                        <div className="subject-list">
-                            {stats.subjectWise.map((subject, index) => (
-                                <div key={index} className="subject-card">
-                                    <div className="subject-info">
-                                        <h3 className="subject-name">{subject.subject}</h3>
-                                        <span className={`badge badge-${subject.status}`}>
-                                            {subject.percentage}%
-                                        </span>
-                                    </div>
-                                    <div className="progress-bar">
-                                        <div
-                                            className={`progress-fill progress-${subject.status}`}
-                                            style={{ width: `${subject.percentage}%` }}
-                                        />
-                                    </div>
-                                    <div className="subject-status-text">
-                                        {subject.percentage >= 75
-                                            ? '✓ Good standing'
-                                            : '⚠ Below minimum requirement'}
-                                    </div>
+
+                        <div className="dashboard-content-grid">
+                            {/* Subject-wise breakdown */}
+                            <div className="dashboard-section">
+                                <div className="section-header">
+                                    <h2>Subject-wise Attendance</h2>
                                 </div>
-                            ))}
-                        </div>
-                    </div>
+                                {subjects.length === 0 ? (
+                                    <p style={{ color: 'var(--gray-500)', padding: '1rem' }}>
+                                        No subject data available yet.
+                                    </p>
+                                ) : (
+                                    <div className="subject-list">
+                                        {subjects.map((subject, index) => {
+                                            const pct = subject.percentage ?? 0;
+                                            const statusClass = getAttendanceStatus(pct);
+                                            return (
+                                                <div key={index} className="subject-card">
+                                                    <div className="subject-info">
+                                                        <h3 className="subject-name">{subject.subject}</h3>
+                                                        <span className={`badge badge-${statusClass}`}>{pct.toFixed(1)}%</span>
+                                                    </div>
+                                                    <div className="progress-bar">
+                                                        <div
+                                                            className={`progress-fill progress-${statusClass}`}
+                                                            style={{ width: `${pct}%` }}
+                                                        />
+                                                    </div>
+                                                    <div className="subject-status-text">
+                                                        {pct >= 75 ? '✓ Good standing' : '⚠ Below minimum requirement'}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
 
-                    <div className="dashboard-section">
-                        <div className="section-header">
-                            <h2>Recent Attendance</h2>
-                        </div>
-                        <div className="recent-list">
-                            {stats.recentRecords.map((record) => (
-                                <div key={record.id} className="recent-item">
-                                    <div className="recent-icon-wrapper">
-                                        {record.status === 'present' ? (
-                                            <FaCheckCircle className="recent-icon success" />
-                                        ) : (
-                                            <FaTimesCircle className="recent-icon danger" />
-                                        )}
-                                    </div>
-                                    <div className="recent-details">
-                                        <div className="recent-subject">{record.subject}</div>
-                                        <div className="recent-date">{new Date(record.date).toLocaleDateString()}</div>
-                                    </div>
-                                    <span className={`badge badge-${record.status === 'present' ? 'success' : 'danger'}`}>
-                                        {record.status}
-                                    </span>
+                            {/* Recent records */}
+                            <div className="dashboard-section">
+                                <div className="section-header">
+                                    <h2>Recent Attendance</h2>
                                 </div>
-                            ))}
+                                {records.length === 0 ? (
+                                    <p style={{ color: 'var(--gray-500)', padding: '1rem' }}>
+                                        No attendance records found.
+                                    </p>
+                                ) : (
+                                    <div className="recent-list">
+                                        {records.map((record) => (
+                                            <div key={record.id} className="recent-item">
+                                                <div className="recent-icon-wrapper">
+                                                    {record.status === 'present' ? (
+                                                        <FaCheckCircle className="recent-icon success" style={{ color: 'var(--success-600)' }} />
+                                                    ) : (
+                                                        <FaTimesCircle className="recent-icon danger" style={{ color: 'var(--danger-600)' }} />
+                                                    )}
+                                                </div>
+                                                <div className="recent-details">
+                                                    <div className="recent-subject">{record.subject || 'General'}</div>
+                                                    <div className="recent-date">
+                                                        {new Date(record.class_date).toLocaleDateString()}
+                                                    </div>
+                                                </div>
+                                                <span className={`badge badge-${record.status === 'present' ? 'success' : 'danger'}`}>
+                                                    {record.status}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                {stats.overallAttendance < 75 && (
-                    <div className="alert alert-warning">
-                        <strong>⚠ Attendance Alert:</strong> Your attendance is below the minimum requirement of 75%.
-                        Please improve your attendance to avoid academic penalties.
-                    </div>
+                        {overallPct < 75 && totalClasses > 0 && (
+                            <div className="alert alert-warning">
+                                <strong>⚠ Attendance Alert:</strong> Your attendance is below the minimum 75% requirement.
+                                Please improve your attendance to avoid academic penalties.
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         </div>

@@ -1,0 +1,10 @@
+DEBUG: Authenticating user testuser
+DEBUG: Verifying password of length 8
+DEBUG: Stored hash length 60
+DEBUG: Stored hash: $2b$12$Unehd2cBIT4xrU.CGjo/0OdN4vPOAI39EvUwGnq/S5n.EVUDgUbkq
+DEBUG: Password verification error: hash could not be identified
+DEBUG: Authenticating user testuser
+DEBUG: Verifying password of length 8
+DEBUG: Stored hash length 87
+DEBUG: Stored hash: $pbkdf2-sha256$29000$wjhHyBkDgHAOoVSqNaY0Bg$sVvCMomZEwAJYi0rszTd/SQgKBzkPYfpx0HPEVFvhXk
+DEBUG: Authentication successful

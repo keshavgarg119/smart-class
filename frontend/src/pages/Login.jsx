@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { FaEnvelope, FaLock, FaGraduationCap, FaUserCircle } from 'react-icons/fa';
 import { ROUTES, USER_ROLES } from '../utils/constants';
+import { validatePassword, PASSWORD_REQUIREMENTS_TEXT } from '../utils/validation';
 import '../styles/auth.css';
 
 const Login = () => {
@@ -30,13 +31,22 @@ const Login = () => {
         setError('');
         setLoading(true);
 
-        const result = await login(formData);
+        const passwordError = validatePassword(formData.password);
+        if (passwordError) {
+            setError(passwordError);
+            setLoading(false);
+            return;
+        }
+
+        // Pass email as the "username" field — backend supports email OR username login
+        const result = await login({ username: formData.email, password: formData.password });
 
         if (result.success) {
-            // Redirect based on role
-            if (formData.role === USER_ROLES.ADMIN) {
+            // Redirect based on the actual role returned from the JWT, not the dropdown
+            const role = result.user?.role;
+            if (role === USER_ROLES.ADMIN) {
                 navigate(ROUTES.ADMIN_DASHBOARD);
-            } else if (formData.role === USER_ROLES.TEACHER) {
+            } else if (role === USER_ROLES.TEACHER) {
                 navigate(ROUTES.TEACHER_DASHBOARD);
             } else {
                 navigate(ROUTES.STUDENT_DASHBOARD);
@@ -46,6 +56,7 @@ const Login = () => {
             setLoading(false);
         }
     };
+
 
     return (
         <div className="auth-container">
@@ -84,6 +95,10 @@ const Login = () => {
                         <label className="form-label">
                             <FaLock /> Password
                         </label>
+                        <span className="password-hint-heading">Password Requirements:</span>
+                        <small className="password-hint">
+                            {PASSWORD_REQUIREMENTS_TEXT}
+                        </small>
                         <input
                             type="password"
                             name="password"

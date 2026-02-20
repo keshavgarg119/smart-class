@@ -1,87 +1,103 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import StatCard from '../components/StatCard';
 import DataTable from '../components/DataTable';
-import { FaUsers, FaChalkboardTeacher, FaChartBar, FaUserCheck, FaPlus, FaFileAlt, FaUsersCog } from 'react-icons/fa';
+import { FaUsers, FaChalkboardTeacher, FaChartBar, FaUserCheck, FaPlus, FaFileAlt, FaUsersCog, FaTrash, FaEdit } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
-import { ROUTES } from '../utils/constants';
+import * as studentService from '../services/studentService';
+import * as attendanceService from '../services/attendanceService';
 import '../styles/dashboard.css';
 
 const AdminDashboard = () => {
     const { user } = useAuth();
-    const navigate = useNavigate();
-    const [stats] = useState({
-        totalStudents: 1245,
-        totalTeachers: 58,
-        totalClasses: 125,
-        averageAttendance: 87.3,
-        recentActivities: [
-            { id: 1, type: 'user', message: 'New student registered: John Doe', time: '5 min ago' },
-            { id: 2, type: 'attendance', message: 'Attendance marked for CS101', time: '12 min ago' },
-            { id: 3, type: 'report', message: 'Monthly report generated', time: '1 hour ago' },
-            { id: 4, type: 'user', message: 'Teacher Sarah updated class schedule', time: '2 hours ago' }
-        ]
+    const [stats, setStats] = useState({
+        totalStudents: 0,
+        totalAttendance: 0,
+        presentToday: 0,
+        avgAttendance: 0,
     });
+    const [students, setStudents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const [recentUsers] = useState([
-        { id: 1, name: 'Alice Johnson', role: 'Student', department: 'Computer Science', status: 'active' },
-        { id: 2, name: 'Bob Smith', role: 'Teacher', department: 'Information Technology', status: 'active' },
-        { id: 3, name: 'Carol White', role: 'Student', department: 'Electronics', status: 'inactive' },
-        { id: 4, name: 'David Brown', role: 'Student', department: 'Computer Science', status: 'active' },
-        { id: 5, name: 'Emma Davis', role: 'Teacher', department: 'Mechanical', status: 'active' }
-    ]);
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+
+            const [studentsData, allRecords] = await Promise.all([
+                studentService.getAllStudents(0, 200),
+                attendanceService.getAttendanceRecords({ limit: 200 }),
+            ]);
+
+            // Calculate today's present count
+            const today = new Date().toISOString().split('T')[0];
+            const todayPresent = allRecords.filter(r =>
+                r.class_date?.startsWith(today) && r.status === 'present'
+            ).length;
+
+            // Average attendance across all records
+            const presentTotal = allRecords.filter(r => r.status === 'present').length;
+            const avgPct = allRecords.length > 0
+                ? ((presentTotal / allRecords.length) * 100).toFixed(1)
+                : 0;
+
+            setStats({
+                totalStudents: studentsData.length,
+                totalAttendance: allRecords.length,
+                presentToday: todayPresent,
+                avgAttendance: avgPct,
+            });
+            setStudents(studentsData);
+        } catch (err) {
+            setError('Failed to load dashboard data.');
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleDeleteStudent = async (studentId) => {
+        if (!window.confirm('Are you sure you want to delete this student?')) return;
+        try {
+            await studentService.deleteStudent(studentId);
+            setStudents(prev => prev.filter(s => s.id !== studentId));
+        } catch {
+            alert('Failed to delete student.');
+        }
+    };
 
     const columns = [
-        { key: 'name', label: 'Name', sortable: true },
-        { key: 'role', label: 'Role', sortable: true },
+        { key: 'full_name', label: 'Name', sortable: true },
+        { key: 'student_id', label: 'Student ID', sortable: true },
         { key: 'department', label: 'Department', sortable: true },
         {
-            key: 'status',
-            label: 'Status',
-            render: (value) => (
-                <span className={`badge badge-${value === 'active' ? 'success' : 'gray'}`}>
-                    {value}
-                </span>
-            )
+            key: 'year',
+            label: 'Year',
+            render: (value) => `Year ${value || '—'}`
         },
         {
             key: 'actions',
             label: 'Actions',
             render: (_, row) => (
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
-                    <button className="btn btn-sm btn-primary">Edit</button>
-                    <button className="btn btn-sm btn-danger">Delete</button>
+                    <button className="btn btn-sm btn-danger" onClick={() => handleDeleteStudent(row.id)}>
+                        <FaTrash /> Delete
+                    </button>
                 </div>
             )
         }
     ];
 
     const quickActions = [
-        {
-            title: 'Manage Users',
-            description: 'Add or edit students and teachers',
-            icon: FaUsersCog,
-            onClick: () => navigate(ROUTES.MANAGE_USERS)
-        },
-        {
-            title: 'Manage Classes',
-            description: 'Set up classes and subjects',
-            icon: FaChalkboardTeacher,
-            onClick: () => navigate(ROUTES.MANAGE_CLASSES)
-        },
-        {
-            title: 'View Reports',
-            description: 'Generate attendance reports',
-            icon: FaFileAlt,
-            onClick: () => navigate(ROUTES.SYSTEM_REPORTS)
-        },
-        {
-            title: 'Add New User',
-            description: 'Register a new student or teacher',
-            icon: FaPlus,
-            onClick: () => alert('Add User functionality')
-        }
+        { title: 'Manage Users', description: 'Add or edit students and teachers', icon: FaUsersCog, onClick: () => alert('Coming soon!') },
+        { title: 'Manage Classes', description: 'Set up classes and subjects', icon: FaChalkboardTeacher, onClick: () => alert('Coming soon!') },
+        { title: 'View Reports', description: 'Generate attendance reports', icon: FaFileAlt, onClick: () => alert('Coming soon!') },
+        { title: 'Add New User', description: 'Register a new student or teacher', icon: FaPlus, onClick: () => alert('Coming soon!') },
     ];
 
     return (
@@ -92,90 +108,60 @@ const AdminDashboard = () => {
                 <div className="dashboard-header">
                     <div>
                         <h1 className="dashboard-title">Admin Dashboard</h1>
-                        <p className="dashboard-subtitle">Manage your institution's attendance system</p>
+                        <p className="dashboard-subtitle">
+                            Welcome, {user?.full_name || user?.username} — manage your institution's attendance system
+                        </p>
                     </div>
+                    <button className="btn btn-outline" onClick={fetchData}>↻ Refresh</button>
                 </div>
 
-                <div className="dashboard-stats grid grid-cols-4">
-                    <StatCard
-                        title="Total Students"
-                        value={stats.totalStudents}
-                        icon={FaUsers}
-                        iconColor="primary"
-                        trend="up"
-                        trendValue="+12 this month"
-                    />
-                    <StatCard
-                        title="Total Teachers"
-                        value={stats.totalTeachers}
-                        icon={FaChalkboardTeacher}
-                        iconColor="success"
-                        description="Active faculty"
-                    />
-                    <StatCard
-                        title="Total Classes"
-                        value={stats.totalClasses}
-                        icon={FaChartBar}
-                        iconColor="warning"
-                        description="Active this semester"
-                    />
-                    <StatCard
-                        title="Avg. Attendance"
-                        value={`${stats.averageAttendance}%`}
-                        icon={FaUserCheck}
-                        iconColor="success"
-                        trend="up"
-                        trendValue="+2.5% from last month"
-                    />
-                </div>
+                {error && <div className="alert alert-danger">{error}</div>}
 
-                <div className="section-header" style={{ marginTop: 'var(--spacing-xl)' }}>
-                    <h2>Quick Actions</h2>
-                </div>
-                <div className="quick-actions">
-                    {quickActions.map((action, index) => (
-                        <div key={index} className="quick-action-card" onClick={action.onClick}>
-                            <div className="quick-action-icon">
-                                <action.icon />
-                            </div>
-                            <h3 className="quick-action-title">{action.title}</h3>
-                            <p className="quick-action-description">{action.description}</p>
+                {loading ? (
+                    <div style={{ textAlign: 'center', padding: '3rem' }}>
+                        <div className="spinner" style={{ margin: '0 auto' }} />
+                        <p style={{ marginTop: '1rem', color: 'var(--gray-500)' }}>Loading dashboard…</p>
+                    </div>
+                ) : (
+                    <>
+                        <div className="dashboard-stats grid grid-cols-4">
+                            <StatCard title="Total Students" value={stats.totalStudents} icon={FaUsers} iconColor="primary" />
+                            <StatCard title="Total Attendance Records" value={stats.totalAttendance} icon={FaChartBar} iconColor="warning" />
+                            <StatCard title="Present Today" value={stats.presentToday} icon={FaUserCheck} iconColor="success" description="Marked today" />
+                            <StatCard title="Avg. Attendance" value={`${stats.avgAttendance}%`} icon={FaChalkboardTeacher} iconColor="success" trend="up" trendValue="Overall" />
                         </div>
-                    ))}
-                </div>
 
-                <div className="dashboard-content-grid">
-                    <div className="dashboard-section">
-                        <div className="section-header">
-                            <h2>Recent Activity</h2>
+                        <div className="section-header" style={{ marginTop: 'var(--spacing-xl)' }}>
+                            <h2>Quick Actions</h2>
                         </div>
-                        <div className="recent-list">
-                            {stats.recentActivities.map((activity) => (
-                                <div key={activity.id} className="recent-item">
-                                    <div className="recent-icon-wrapper">
-                                        <FaUserCheck className="recent-icon success" />
-                                    </div>
-                                    <div className="recent-details">
-                                        <div className="recent-subject">{activity.message}</div>
-                                        <div className="recent-date">{activity.time}</div>
-                                    </div>
+                        <div className="quick-actions">
+                            {quickActions.map((action, index) => (
+                                <div key={index} className="quick-action-card" onClick={action.onClick}>
+                                    <div className="quick-action-icon"><action.icon /></div>
+                                    <h3 className="quick-action-title">{action.title}</h3>
+                                    <p className="quick-action-description">{action.description}</p>
                                 </div>
                             ))}
                         </div>
-                    </div>
 
-                    <div className="dashboard-section">
-                        <div className="section-header">
-                            <h2>Recent Users</h2>
+                        <div className="dashboard-section" style={{ marginTop: 'var(--spacing-xl)' }}>
+                            <div className="section-header">
+                                <h2>Registered Students</h2>
+                            </div>
+                            {students.length === 0 ? (
+                                <p style={{ color: 'var(--gray-500)', padding: '1rem' }}>No students registered yet.</p>
+                            ) : (
+                                <DataTable
+                                    columns={columns}
+                                    data={students}
+                                    searchable={true}
+                                    pagination={true}
+                                    itemsPerPage={8}
+                                />
+                            )}
                         </div>
-                        <DataTable
-                            columns={columns}
-                            data={recentUsers}
-                            searchable={false}
-                            pagination={false}
-                        />
-                    </div>
-                </div>
+                    </>
+                )}
             </div>
         </div>
     );

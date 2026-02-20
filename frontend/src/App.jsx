@@ -8,6 +8,8 @@ import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
 import TeacherDashboard from './pages/TeacherDashboard';
 import StudentDashboard from './pages/StudentDashboard';
+import MarkAttendance from './pages/MarkAttendance';
+import ViewAttendance from './pages/ViewAttendance';
 
 // Constants
 import { USER_ROLES } from './utils/constants';
@@ -37,6 +39,22 @@ function App() {
                         element={
                             <ProtectedRoute allowedRoles={[USER_ROLES.TEACHER]}>
                                 <TeacherDashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/teacher/mark-attendance"
+                        element={
+                            <ProtectedRoute allowedRoles={[USER_ROLES.TEACHER]}>
+                                <MarkAttendance />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/teacher/view-attendance"
+                        element={
+                            <ProtectedRoute allowedRoles={[USER_ROLES.TEACHER]}>
+                                <ViewAttendance />
                             </ProtectedRoute>
                         }
                     />

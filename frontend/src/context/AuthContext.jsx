@@ -1,13 +1,12 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { USER_ROLES } from '../utils/constants';
+import * as authService from '../services/authService';
 
 const AuthContext = createContext(null);
 
 export const useAuth = () => {
     const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error('useAuth must be used within AuthProvider');
-    }
+    if (!context) throw new Error('useAuth must be used within AuthProvider');
     return context;
 };
 
@@ -16,9 +15,10 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Check if user is logged in (from localStorage)
+        // Restore session from localStorage on page load
         const storedUser = localStorage.getItem('user');
-        if (storedUser) {
+        const token = localStorage.getItem('token');
+        if (storedUser && token) {
             setUser(JSON.parse(storedUser));
         }
         setLoading(false);
@@ -26,46 +26,62 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (credentials) => {
         try {
-            // TODO: Replace with actual API call
-            // For now, mock login
-            const mockUser = {
-                id: '1',
-                name: credentials.email.split('@')[0],
-                email: credentials.email,
-                role: credentials.role || USER_ROLES.STUDENT,
-                department: 'Computer Science',
-                studentId: 'CS2024001'
+            const data = await authService.login(credentials.username, credentials.password);
+
+            // Decode JWT to get role and user id
+            const payload = authService.decodeToken(data.access_token);
+
+            // Store token first so /auth/me request can use it
+            localStorage.setItem('token', data.access_token);
+
+            // Fetch full user profile
+            let fullName = payload?.sub || credentials.username;
+            try {
+                const api = (await import('../services/api')).default;
+                const meRes = await api.get('/auth/me');
+                fullName = meRes.data.full_name || meRes.data.username;
+            } catch { /* non-critical */ }
+
+            const userData = {
+                id: payload?.id,
+                username: payload?.sub,
+                role: payload?.role,
+                full_name: fullName,
             };
 
-            setUser(mockUser);
-            localStorage.setItem('user', JSON.stringify(mockUser));
-            localStorage.setItem('token', 'mock-jwt-token');
+            localStorage.setItem('user', JSON.stringify(userData));
+            setUser(userData);
 
-            return { success: true, user: mockUser };
+            return { success: true, user: userData };
         } catch (error) {
-            console.error('Login error:', error);
-            return { success: false, error: 'Login failed' };
+            const message = error.response?.data?.detail || 'Login failed';
+            return { success: false, error: message };
         }
     };
 
     const register = async (userData) => {
         try {
-            // TODO: Replace with actual API call
-            const newUser = {
-                id: Date.now().toString(),
-                ...userData
+            const payload = {
+                email: userData.email,
+                username: userData.email.split('@')[0],
+                full_name: userData.name || userData.full_name || userData.username,
+                password: userData.password,
+                role: (userData.role || 'student').toLowerCase(),
             };
 
-            setUser(newUser);
-            localStorage.setItem('user', JSON.stringify(newUser));
-            localStorage.setItem('token', 'mock-jwt-token');
+            await authService.register(payload);
 
-            return { success: true, user: newUser };
+            // Auto-login after registration
+            return await login({
+                username: userData.email,
+                password: userData.password,
+            });
         } catch (error) {
-            console.error('Registration error:', error);
-            return { success: false, error: 'Registration failed' };
+            const message = error.response?.data?.detail || 'Registration failed';
+            return { success: false, error: message };
         }
     };
+
 
     const logout = () => {
         setUser(null);
@@ -82,7 +98,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: !!user,
         isAdmin: user?.role === USER_ROLES.ADMIN,
         isTeacher: user?.role === USER_ROLES.TEACHER,
-        isStudent: user?.role === USER_ROLES.STUDENT
+        isStudent: user?.role === USER_ROLES.STUDENT,
     };
 
     return (

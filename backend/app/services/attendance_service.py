@@ -26,16 +26,40 @@ def get_student_stats(db: Session, student_id: int):
         Attendance.status == AttendanceStatus.LATE
     ).count()
     
-    # Calculate percentage
-    attendance_percentage = (present / total * 100) if total > 0 else 0
+    # Calculate percentage (present + late both count as attended)
+    attended = present + late
+    attendance_percentage = (attended / total * 100) if total > 0 else 0
+    
+    # Build subject-wise breakdown
+    all_records = db.query(Attendance).filter(Attendance.student_id == student_id).all()
+    subject_map = {}
+    for r in all_records:
+        subj = r.subject or "General"
+        if subj not in subject_map:
+            subject_map[subj] = {"total": 0, "present": 0}
+        subject_map[subj]["total"] += 1
+        if r.status in (AttendanceStatus.PRESENT, AttendanceStatus.LATE):
+            subject_map[subj]["present"] += 1
+    
+    subjects = [
+        {
+            "subject": subj,
+            "total": data["total"],
+            "present": data["present"],
+            "percentage": round((data["present"] / data["total"] * 100), 1) if data["total"] > 0 else 0
+        }
+        for subj, data in subject_map.items()
+    ]
     
     return {
         "total_classes": total,
         "present": present,
         "absent": absent,
         "late": late,
-        "attendance_percentage": round(attendance_percentage, 2)
+        "percentage": round(attendance_percentage, 2),
+        "subjects": subjects
     }
+
 
 def get_class_attendance(db: Session, class_date: datetime, subject: str = None):
     """Get attendance for a specific class"""

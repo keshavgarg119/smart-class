@@ -31,13 +31,18 @@ def create_user(db: Session, user: UserCreate):
     return db_user
 
 def authenticate_user(db: Session, username: str, password: str):
-    """Authenticate user with username and password"""
+    """Authenticate user with username or email and password"""
     user = get_user_by_username(db, username)
     if not user:
+        # Try email fallback
+        user = get_user_by_email(db, username)
+    if not user:
         return False
+    
     if not verify_password(password, user.hashed_password):
         return False
     return user
+
 
 def create_access_token(data: dict):
     """Create JWT access token"""

@@ -226,3 +226,22 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Password requirements hint */
+.password-hint {
+    font-size: 0.75rem;
+    color: #718096;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    line-height: 1.4;
+}
+
+.password-hint-heading {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 0.25rem;
+    margin-top: 0.5rem;
+}

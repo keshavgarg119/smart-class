@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { FaUser, FaEnvelope, FaLock, FaGraduationCap, FaUserCircle, FaIdCard } from 'react-icons/fa';
 import { ROUTES, USER_ROLES, DEPARTMENTS, SEMESTERS } from '../utils/constants';
+import { validatePassword, PASSWORD_REQUIREMENTS_TEXT } from '../utils/validation';
 import '../styles/auth.css';
 
 const Register = () => {
@@ -39,8 +40,14 @@ const Register = () => {
             return;
         }
 
-        if (formData.password.length < 6) {
-            setError('Password must be at least 6 characters');
+        if (formData.password.length < 8) {
+            setError('Password must be at least 8 characters');
+            return;
+        }
+
+        const passwordError = validatePassword(formData.password);
+        if (passwordError) {
+            setError(passwordError);
             return;
         }
 
@@ -49,10 +56,11 @@ const Register = () => {
         const result = await register(formData);
 
         if (result.success) {
-            // Redirect based on role
-            if (formData.role === USER_ROLES.ADMIN) {
+            // Redirect based on the actual role returned from the JWT
+            const role = result.user?.role;
+            if (role === USER_ROLES.ADMIN) {
                 navigate(ROUTES.ADMIN_DASHBOARD);
-            } else if (formData.role === USER_ROLES.TEACHER) {
+            } else if (role === USER_ROLES.TEACHER) {
                 navigate(ROUTES.TEACHER_DASHBOARD);
             } else {
                 navigate(ROUTES.STUDENT_DASHBOARD);
@@ -116,11 +124,15 @@ const Register = () => {
                             <label className="form-label">
                                 <FaLock /> Password
                             </label>
+                            <span className="password-hint-heading">Password Requirements:</span>
+                            <small className="password-hint">
+                                {PASSWORD_REQUIREMENTS_TEXT}
+                            </small>
                             <input
                                 type="password"
                                 name="password"
                                 className="form-input"
-                                placeholder="Min. 6 characters"
+                                placeholder="Min. 8 characters"
                                 value={formData.password}
                                 onChange={handleChange}
                                 required
