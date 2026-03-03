@@ -22,3 +22,7 @@ def get_db():
         yield db
     finally:
         pass
+
+def get_db_client():
+    """Function to get a fresh MongoDB client for background jobs"""
+    return MongoClient(MONGODB_URL)

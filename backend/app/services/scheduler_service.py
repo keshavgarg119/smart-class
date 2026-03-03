@@ -1,15 +1,15 @@
 import logging
 from datetime import datetime
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 from app.database import get_db, get_db_client
 from app.services.email_service import send_daily_schedule_email, send_attendance_warning_email
 
 logger = logging.getLogger(__name__)
-scheduler = AsyncIOScheduler()
+scheduler = BackgroundScheduler()
 
-async def job_send_morning_alerts():
+def job_send_morning_alerts():
     """
     Runs daily at 7:00 AM.
     Queries today's timetable for each student and sends a daily schedule email.
@@ -67,9 +67,11 @@ async def job_send_morning_alerts():
         logger.info(f"Morning alerts complete. Sent {emails_sent} emails.")
     except Exception as e:
         logger.error(f"Error in morning alerts job: {e}")
+    finally:
+        client.close()
 
 
-async def job_mark_auto_absent():
+def job_mark_auto_absent():
     """
     Runs daily at 11:00 PM.
     Checks today's timetable. If a student was supposed to be in class but has no attendance record, marks absent.
@@ -122,7 +124,7 @@ async def job_mark_auto_absent():
                             "date": today_str,
                             "timestamp": datetime.utcnow(),
                             "marked_via": "auto_cron",
-                            "teacher_id": c.get("teacher"),
+                            "teacher_id": str(c.get("teacher")),
                             "class_id": str(c.get("_id"))
                         })
                         absent_records_created += 1
@@ -131,6 +133,8 @@ async def job_mark_auto_absent():
 
     except Exception as e:
         logger.error(f"Error in auto-absent tracking job: {e}")
+    finally:
+        client.close()
 
 def init_scheduler():
     """
