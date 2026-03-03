@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import StatCard from '../components/StatCard';
-import { FaUsers, FaCalendarCheck, FaChartLine, FaExclamationTriangle, FaCamera, FaEye, FaChartBar } from 'react-icons/fa';
+import { FaUsers, FaCalendarCheck, FaChartLine, FaExclamationTriangle, FaCamera, FaEye, FaChartBar, FaEnvelope } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
-import * as attendanceService from '../services/attendanceService';
 import * as studentService from '../services/studentService';
+import * as attendanceService from '../services/attendanceService';
+import { ROUTES } from '../utils/constants';
 import '../styles/dashboard.css';
 
 const TeacherDashboard = () => {
@@ -80,7 +81,24 @@ const TeacherDashboard = () => {
             description: 'View detailed analytics and trends',
             icon: FaChartBar,
             color: 'warning',
-            onClick: () => alert('Analytics coming soon!')
+            onClick: () => navigate(ROUTES.CLASS_ANALYTICS)
+        },
+        {
+            title: 'Send Alerts',
+            description: 'Notify students below 75% attendance',
+            icon: FaEnvelope,
+            color: 'danger',
+            onClick: async () => {
+                if (window.confirm("Send warning emails to students below 75% attendance?")) {
+                    try {
+                        const res = await attendanceService.notifyLowAttendance();
+                        alert(res.message);
+                    } catch (err) {
+                        console.error(err);
+                        alert("Failed to send alerts.");
+                    }
+                }
+            }
         }
     ];
 

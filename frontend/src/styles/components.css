@@ -257,3 +257,68 @@
         justify-content: center;
     }
 }
+
+/* Dark Mode Overrides for DataTable */
+[data-theme="dark"] .data-table-container {
+    background: #1e293b;
+    border: 1px solid #334155;
+}
+
+[data-theme="dark"] .data-table-search {
+    background: #0f172a;
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .data-table-search-input {
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .data-table th {
+    background: #0f172a;
+    color: #94a3b8;
+    border-bottom-color: #334155;
+}
+
+[data-theme="dark"] .data-table th.sortable:hover {
+    background: #1e293b;
+}
+
+[data-theme="dark"] .data-table td {
+    color: #e2e8f0;
+    border-bottom-color: #334155;
+}
+
+[data-theme="dark"] .data-table tbody tr:hover {
+    background: #263548;
+}
+
+[data-theme="dark"] .pagination-button {
+    background: #1e293b;
+    border-color: #475569;
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .pagination-button:hover:not(:disabled) {
+    background: #334155;
+    border-color: #6366f1;
+    color: #a5b4fc;
+}
+
+[data-theme="dark"] .pagination-button.active {
+    background: #6366f1;
+    color: white;
+    border-color: #6366f1;
+}
+
+[data-theme="dark"] .pagination-info {
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .stat-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+}
+
+[data-theme="dark"] .stat-card-value {
+    color: #f1f5f9;
+}

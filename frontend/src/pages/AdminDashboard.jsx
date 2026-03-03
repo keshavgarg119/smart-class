@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import StatCard from '../components/StatCard';
 import DataTable from '../components/DataTable';
@@ -6,9 +7,11 @@ import { FaUsers, FaChalkboardTeacher, FaChartBar, FaUserCheck, FaPlus, FaFileAl
 import { useAuth } from '../context/AuthContext';
 import * as studentService from '../services/studentService';
 import * as attendanceService from '../services/attendanceService';
+import { ROUTES } from '../utils/constants';
 import '../styles/dashboard.css';
 
 const AdminDashboard = () => {
+    const navigate = useNavigate();
     const { user } = useAuth();
     const [stats, setStats] = useState({
         totalStudents: 0,
@@ -94,10 +97,10 @@ const AdminDashboard = () => {
     ];
 
     const quickActions = [
-        { title: 'Manage Users', description: 'Add or edit students and teachers', icon: FaUsersCog, onClick: () => alert('Coming soon!') },
-        { title: 'Manage Classes', description: 'Set up classes and subjects', icon: FaChalkboardTeacher, onClick: () => alert('Coming soon!') },
-        { title: 'View Reports', description: 'Generate attendance reports', icon: FaFileAlt, onClick: () => alert('Coming soon!') },
-        { title: 'Add New User', description: 'Register a new student or teacher', icon: FaPlus, onClick: () => alert('Coming soon!') },
+        { title: 'Manage Users', description: 'Add or edit students and teachers', icon: FaUsersCog, onClick: () => navigate(ROUTES.MANAGE_USERS) },
+        { title: 'Manage Classes', description: 'Set up classes and subjects', icon: FaChalkboardTeacher, onClick: () => navigate(ROUTES.MANAGE_CLASSES) },
+        { title: 'View Reports', description: 'Generate attendance reports', icon: FaFileAlt, onClick: () => navigate(ROUTES.SYSTEM_REPORTS) },
+        { title: 'Add New User', description: 'Register a new student or teacher', icon: FaPlus, onClick: () => navigate(ROUTES.MANAGE_USERS) },
     ];
 
     return (

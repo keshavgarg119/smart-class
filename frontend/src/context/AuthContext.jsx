@@ -67,15 +67,34 @@ export const AuthProvider = ({ children }) => {
                 full_name: userData.name || userData.full_name || userData.username,
                 password: userData.password,
                 role: (userData.role || 'student').toLowerCase(),
+                linked_student_rollno: userData.linkedStudentRollno || null,
             };
 
             await authService.register(payload);
 
             // Auto-login after registration
-            return await login({
+            const loginResult = await login({
                 username: userData.email,
                 password: userData.password,
             });
+
+            // Create student record if user is a student
+            if (loginResult.success && payload.role === 'student' && userData.studentId) {
+                try {
+                    const studentService = await import('../services/studentService');
+                    await studentService.createStudent({
+                        user_id: loginResult.user.id,
+                        student_id: userData.studentId,
+                        department: userData.department,
+                        year: parseInt(userData.semester) || 1,
+                        batch: userData.batch || null,
+                    });
+                } catch (err) {
+                    console.error("Failed to create student profile data:", err);
+                }
+            }
+
+            return loginResult;
         } catch (error) {
             const message = error.response?.data?.detail || 'Registration failed';
             return { success: false, error: message };
@@ -99,6 +118,7 @@ export const AuthProvider = ({ children }) => {
         isAdmin: user?.role === USER_ROLES.ADMIN,
         isTeacher: user?.role === USER_ROLES.TEACHER,
         isStudent: user?.role === USER_ROLES.STUDENT,
+        isParent: user?.role === USER_ROLES.PARENT,
     };
 
     return (

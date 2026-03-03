@@ -1,7 +1,6 @@
 from fastapi import UploadFile
 import numpy as np
-from sqlalchemy.orm import Session
-from app.models.student_model import Student
+import cv2
 from app.config import settings
 import pickle
 
@@ -45,21 +44,47 @@ async def encode_face(file: UploadFile):
         print(f"Error encoding face: {str(e)}")
         return None
 
-async def recognize_face(file: UploadFile, db: Session):
+async def recognize_face(file: UploadFile, db):
     """Recognize face from uploaded image"""
     if face_recognition is None:
         return {"success": False, "message": "face_recognition library is not installed"}
     try:
-        # Encode the uploaded face
-        uploaded_encoding_bytes = await encode_face(file)
+        # Read file contents ONCE
+        contents = await file.read()
         
-        if uploaded_encoding_bytes is None:
+        if not contents:
+            return {"success": False, "message": "Empty image file received"}
+        
+        # Decode for face encoding using PIL
+        import io
+        from PIL import Image
+        image = Image.open(io.BytesIO(contents))
+        image_array = np.array(image)
+        
+        # Find and encode the face
+        face_locations = face_recognition.face_locations(image_array)
+        if len(face_locations) == 0:
             return {"success": False, "message": "No face detected in image"}
         
-        uploaded_encoding = pickle.loads(uploaded_encoding_bytes)
+        face_encodings = face_recognition.face_encodings(image_array, face_locations)
+        if len(face_encodings) == 0:
+            return {"success": False, "message": "No face detected in image"}
+        
+        uploaded_encoding = face_encodings[0]
+        
+        # Liveness check: Verify image is not too blurry (e.g., printed photo)
+        image_bytes = np.frombuffer(contents, np.uint8)
+        cv_image = cv2.imdecode(image_bytes, cv2.IMREAD_COLOR)
+        
+        if cv_image is not None:
+            gray = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
+            fm = cv2.Laplacian(gray, cv2.CV_64F).var()
+            
+            if fm < 100:
+                return {"success": False, "message": "Liveness check failed: Image is too blurry. Avoid holding up a photograph."}
         
         # Get all students with face encodings
-        students = db.query(Student).filter(Student.face_encoding.isnot(None)).all()
+        students = list(db.students.find({"face_encoding": {"$ne": None}}))
         
         if not students:
             return {"success": False, "message": "No registered faces in database"}
@@ -69,7 +94,7 @@ async def recognize_face(file: UploadFile, db: Session):
         
         # Compare with all registered faces
         for student in students:
-            stored_encoding = pickle.loads(student.face_encoding)
+            stored_encoding = pickle.loads(student["face_encoding"])
             
             # Calculate face distance
             distance = face_recognition.face_distance([stored_encoding], uploaded_encoding)[0]
@@ -83,8 +108,8 @@ async def recognize_face(file: UploadFile, db: Session):
             confidence = 1 - best_distance
             return {
                 "success": True,
-                "student_id": best_match.id,
-                "student_roll": best_match.student_id,
+                "student_id": str(best_match["_id"]),
+                "student_roll": best_match.get("student_id", ""),
                 "confidence": confidence,
                 "message": "Face recognized successfully"
             }
@@ -94,3 +119,4 @@ async def recognize_face(file: UploadFile, db: Session):
     except Exception as e:
         print(f"Error recognizing face: {str(e)}")
         return {"success": False, "message": f"Error: {str(e)}"}
+

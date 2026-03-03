@@ -36,3 +36,19 @@ export const decodeToken = (token) => {
         return null;
     }
 };
+
+/**
+ * Send OTP to email for verification
+ */
+export const sendOtp = async (email) => {
+    const response = await api.post('/auth/send-otp', { email });
+    return response.data;
+};
+
+/**
+ * Verify OTP entered by the user
+ */
+export const verifyOtp = async (email, otp) => {
+    const response = await api.post('/auth/verify-otp', { email, otp });
+    return response.data;
+};

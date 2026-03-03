@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { FaGraduationCap, FaBars, FaTimes, FaUser, FaSignOutAlt, FaCog } from 'react-icons/fa';
+import { useTheme } from '../context/ThemeContext';
+import { FaGraduationCap, FaBars, FaTimes, FaUser, FaSignOutAlt, FaCog, FaMoon, FaSun } from 'react-icons/fa';
 import { ROUTES } from '../utils/constants';
 import '../styles/navbar.css';
 
 const Navbar = () => {
-  const { user, logout, isAdmin, isTeacher, isStudent } = useAuth();
+  const { user, logout, isAdmin, isTeacher, isStudent, isParent } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -23,20 +25,32 @@ const Navbar = () => {
         { path: ROUTES.ADMIN_DASHBOARD, label: 'Dashboard' },
         { path: ROUTES.MANAGE_USERS, label: 'Users' },
         { path: ROUTES.MANAGE_CLASSES, label: 'Classes' },
-        { path: ROUTES.SYSTEM_REPORTS, label: 'Reports' }
+        { path: ROUTES.SYSTEM_REPORTS, label: 'Reports' },
+        { path: '/admin/bulk-import', label: 'Bulk Import' }
       ];
     } else if (isTeacher) {
       return [
         { path: ROUTES.TEACHER_DASHBOARD, label: 'Dashboard' },
         { path: ROUTES.MARK_ATTENDANCE, label: 'Mark Attendance' },
         { path: ROUTES.VIEW_ATTENDANCE, label: 'View Attendance' },
-        { path: ROUTES.CLASS_ANALYTICS, label: 'Analytics' }
+        { path: ROUTES.CLASS_ANALYTICS, label: 'Analytics' },
+        { path: '/teacher/leaves', label: 'Leaves' },
+        { path: '/teacher/eligibility', label: 'Eligibility' },
+        { path: '/teacher/qr-attendance', label: 'QR Attend.' },
+        { path: '/timetable', label: 'Timetable' }
       ];
     } else if (isStudent) {
       return [
         { path: ROUTES.STUDENT_DASHBOARD, label: 'Dashboard' },
         { path: ROUTES.ATTENDANCE_HISTORY, label: 'History' },
-        { path: ROUTES.ATTENDANCE_TRENDS, label: 'Trends' }
+        { path: ROUTES.ATTENDANCE_TRENDS, label: 'Trends' },
+        { path: '/student/leave', label: 'Apply Leave' },
+        { path: '/student/scan-qr', label: 'Scan QR' },
+        { path: '/timetable', label: 'Timetable' }
+      ];
+    } else if (isParent) {
+      return [
+        { path: '/parent/dashboard', label: 'Dashboard' },
       ];
     }
     return [];
@@ -71,6 +85,30 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
+
+          <li className="navbar-theme-toggle">
+            <button
+              className="theme-toggle-btn"
+              onClick={toggleTheme}
+              title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+              style={{
+                background: 'rgba(255,255,255,0.15)',
+                border: 'none',
+                borderRadius: '50%',
+                width: '36px',
+                height: '36px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                color: 'white',
+                fontSize: '1.1rem',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              {theme === 'light' ? <FaMoon /> : <FaSun />}
+            </button>
+          </li>
 
           <li className="navbar-profile">
             <button

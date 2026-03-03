@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { FaCalendarAlt, FaBookOpen, FaFilter, FaArrowLeft, FaSearch } from 'react-icons/fa';
+import { FaCalendarAlt, FaBookOpen, FaArrowLeft, FaSearch, FaDownload, FaFilePdf } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import * as attendanceService from '../services/attendanceService';
 import * as studentService from '../services/studentService';
@@ -112,6 +112,32 @@ const ViewAttendance = () => {
 
     const filteredRecords = getFilteredRecords();
 
+    const handleExport = async () => {
+        try {
+            await attendanceService.exportAttendanceCSV({
+                subject: subjectFilter,
+                startDate: dateFilter,
+                endDate: dateFilter
+            });
+        } catch (err) {
+            console.error("Export failed:", err);
+            setError("Failed to export attendance data.");
+        }
+    };
+
+    const handleExportPDF = async () => {
+        try {
+            await attendanceService.exportAttendancePDF({
+                subject: subjectFilter,
+                startDate: dateFilter,
+                endDate: dateFilter
+            });
+        } catch (err) {
+            console.error("PDF Export failed:", err);
+            setError("Failed to export attendance PDF.");
+        }
+    };
+
     return (
         <div className="dashboard">
             <Navbar />
@@ -181,13 +207,27 @@ const ViewAttendance = () => {
                             </select>
                         </div>
 
-                        <div className="form-group" style={{ margin: 0, display: 'flex', alignItems: 'flex-end' }}>
+                        <div className="form-group" style={{ margin: 0, display: 'flex', alignItems: 'flex-end', gap: '0.5rem' }}>
                             <button
                                 className="btn btn-outline"
                                 onClick={() => { setDateFilter(''); setSubjectFilter(''); }}
-                                style={{ width: '100%' }}
+                                style={{ flex: 1 }}
                             >
                                 Clear Filters
+                            </button>
+                            <button
+                                className="btn btn-outline"
+                                onClick={handleExport}
+                                style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}
+                            >
+                                <FaDownload /> CSV
+                            </button>
+                            <button
+                                className="btn btn-primary"
+                                onClick={handleExportPDF}
+                                style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}
+                            >
+                                <FaFilePdf /> PDF
                             </button>
                         </div>
                     </div>

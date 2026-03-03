@@ -1,13 +1,20 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 from datetime import datetime
-from app.models.user_model import UserRole
+from enum import Enum
+
+class UserRole(str, Enum):
+    ADMIN = "admin"
+    TEACHER = "teacher"
+    STUDENT = "student"
+    PARENT = "parent"
 
 class UserBase(BaseModel):
     email: EmailStr
     username: str
     full_name: Optional[str] = None
     role: UserRole = UserRole.STUDENT
+    linked_student_rollno: Optional[str] = None  # For parent role only
 
 class UserCreate(UserBase):
     password: str
@@ -18,8 +25,8 @@ class UserUpdate(BaseModel):
     password: Optional[str] = None
 
 class UserResponse(UserBase):
-    id: int
-    is_active: int
+    id: str
+    is_active: bool
     created_at: datetime
     
     class Config:

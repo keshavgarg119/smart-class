@@ -1,36 +1,44 @@
-from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from fastapi import HTTPException, status
-from app.models.user_model import User
 from app.schemas.user_schema import UserCreate
 from app.utils.password_hash import get_password_hash, verify_password
 from app.config import settings
 
-def get_user_by_email(db: Session, email: str):
+def user_helper(user) -> dict:
+    if not user:
+        return None
+    user["id"] = str(user["_id"])
+    return user
+
+def get_user_by_email(db, email: str):
     """Get user by email"""
-    return db.query(User).filter(User.email == email).first()
+    user = db.users.find_one({"email": email})
+    return user_helper(user)
 
-def get_user_by_username(db: Session, username: str):
+def get_user_by_username(db, username: str):
     """Get user by username"""
-    return db.query(User).filter(User.username == username).first()
+    user = db.users.find_one({"username": username})
+    return user_helper(user)
 
-def create_user(db: Session, user: UserCreate):
+def create_user(db, user: UserCreate):
     """Create a new user"""
     hashed_password = get_password_hash(user.password)
-    db_user = User(
-        email=user.email,
-        username=user.username,
-        full_name=user.full_name,
-        role=user.role,
-        hashed_password=hashed_password
-    )
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
+    new_user = {
+        "email": user.email,
+        "username": user.username,
+        "full_name": user.full_name,
+        "role": user.role,
+        "hashed_password": hashed_password,
+        "is_active": True,
+        "created_at": datetime.utcnow(),
+        "linked_student_rollno": user.linked_student_rollno,  # For parent role
+    }
+    result = db.users.insert_one(new_user)
+    new_user["_id"] = result.inserted_id
+    return user_helper(new_user)
 
-def authenticate_user(db: Session, username: str, password: str):
+def authenticate_user(db, username: str, password: str):
     """Authenticate user with username or email and password"""
     user = get_user_by_username(db, username)
     if not user:
@@ -39,7 +47,7 @@ def authenticate_user(db: Session, username: str, password: str):
     if not user:
         return False
     
-    if not verify_password(password, user.hashed_password):
+    if not verify_password(password, user["hashed_password"]):
         return False
     return user
 
@@ -52,7 +60,7 @@ def create_access_token(data: dict):
     encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return encoded_jwt
 
-def get_current_user(db: Session, token: str):
+def get_current_user(db, token: str):
     """Get current user from JWT token"""
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

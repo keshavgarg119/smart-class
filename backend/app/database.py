@@ -1,27 +1,24 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
+import logging
 
 load_dotenv()
+logger = logging.getLogger(__name__)
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./attendance.db")
+MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://localhost:27017/")
 
-engine = create_engine(
-    DATABASE_URL,
-    connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
-)
-
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-Base = declarative_base()
-
+try:
+    client = MongoClient(MONGODB_URL)
+    db = client.get_database("smart_attendance")
+    logger.info("Successfully connected to MongoDB")
+except Exception as e:
+    logger.error(f"Error connecting to MongoDB: {e}")
+    raise e
 
 def get_db():
-    """Dependency to get DB session per request"""
-    db = SessionLocal()
+    """Dependency to get the MongoDB database instance per request"""
     try:
         yield db
     finally:
-        db.close()
+        pass
