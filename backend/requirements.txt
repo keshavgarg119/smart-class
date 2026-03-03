@@ -24,3 +24,7 @@ dlib-binary
 
 # PDF Generation
 fpdf2==2.7.7
+
+# Additional Additions
+qrcode[pil]>=7.4.2
+apscheduler>=3.11.2
