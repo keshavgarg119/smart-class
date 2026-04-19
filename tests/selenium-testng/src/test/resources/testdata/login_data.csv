@@ -1,0 +1,4 @@
+email,password,role,expectedUrlFragment,expectedErrorMsg
+teacher01@test.com,Test@1234,teacher,/teacher/dashboard,
+invalid@test.com,wrongpass,teacher,,Incorrect username or password
+student01@test.com,Test@1234,student,/student/dashboard,

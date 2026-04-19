@@ -1,0 +1,4 @@
+name,email,password,confirmPassword,role,studentId,department,semester,expectedUrlFragment,expectedErrorMsg
+"DDT Teacher","ddt.teacher1@test.com","Test@1234","Test@1234","teacher","","","","/teacher/dashboard",""
+"DDT Student","ddt.student1@test.com","Test@1234","Test@1234","student","CS0001","Computer Science","Semester 1","/student/dashboard",""
+"Invalid Pass","ddt.invalid@test.com","weak","weak","teacher","","","","","Password must be at least 8 characters"
