@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }) => {
                         user_id: loginResult.user.id,
                         student_id: userData.studentId,
                         department: userData.department,
-                        year: parseInt(userData.semester) || 1,
+                        year: userData.semester ? parseInt(userData.semester.replace('Semester ', '')) : 1,
                         batch: userData.batch || null,
                     });
                 } catch (err) {

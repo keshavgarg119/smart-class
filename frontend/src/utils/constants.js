@@ -190,7 +190,11 @@ export const DEPT_CONFIG = {
 export const generateBatches = (semester, department) => {
     if (!semester) return ACM_SUBGROUPS;
 
-    const semNum = typeof semester === 'string' ? parseInt(semester) : semester;
+    // Handle "Semester 1", "1", 1 etc.
+    const semStr = String(semester);
+    const match = semStr.match(/\d+/);
+    const semNum = match ? parseInt(match[0]) : 1;
+    
     const academicYear = Math.ceil(semNum / 2);
 
     // Filter subgroups that start with this year number

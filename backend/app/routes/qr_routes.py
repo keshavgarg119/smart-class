@@ -63,6 +63,24 @@ def generate_qr(
     return session
 
 
+@router.post("/close")
+def close_qr(
+    body: QRGenerateRequest, # Reuse schema for subject/class_id
+    user=Depends(_get_current_user),
+):
+    """
+    Teacher manually closes a QR session.
+    """
+    if user.get("role") not in ("teacher", "admin"):
+        raise HTTPException(status_code=403, detail="Only teachers can close sessions")
+
+    closed = qr_service.close_session(user["id"], body.subject)
+    if not closed:
+        raise HTTPException(status_code=404, detail="No active session found for this subject")
+    
+    return {"message": "Session closed successfully"}
+
+
 @router.post("/verify")
 def verify_qr(
     body: QRVerifyRequest,
@@ -95,7 +113,7 @@ def verify_qr(
             body.lat, body.lng,
             teacher_lat, teacher_lng,
         )
-        CLASSROOM_RADIUS_M = 50  # must be within 50m of teacher
+        CLASSROOM_RADIUS_M = 25  # must be within 25m of teacher
         if distance > CLASSROOM_RADIUS_M:
             raise HTTPException(
                 status_code=403,

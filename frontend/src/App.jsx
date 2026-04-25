@@ -3,8 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
-import Login from './pages/Login';
-import Register from './pages/Register';
+import AuthPage from './pages/AuthPage';
 import AdminDashboard from './pages/AdminDashboard';
 import ManageUsers from './pages/ManageUsers';
 import ManageClasses from './pages/ManageClasses';
@@ -38,8 +37,8 @@ function App() {
                 <Router>
                     <Routes>
                         {/* Public Routes */}
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
+                        <Route path="/login" element={<AuthPage />} />
+                        <Route path="/register" element={<AuthPage />} />
 
                         {/* Admin Routes */}
                         <Route

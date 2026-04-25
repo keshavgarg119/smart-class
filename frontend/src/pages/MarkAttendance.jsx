@@ -357,12 +357,16 @@ const MarkAttendance = () => {
                                 </table>
                             </div>
 
-                            <div className="form-actions" style={{ marginTop: '2rem', display: 'flex', justifyContent: 'flex-end' }}>
+                            <div className="form-actions" style={{ marginTop: '3rem', display: 'flex', justifyContent: 'flex-end' }}>
                                 <button
                                     type="submit"
-                                    className="submit-button"
+                                    className="btn btn-primary btn-lg"
                                     disabled={submitting || success || filteredStudents.length === 0}
-                                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                                    style={{ 
+                                        padding: '1rem 3rem', 
+                                        borderRadius: '12px',
+                                        boxShadow: '0 10px 15px -3px rgba(99, 102, 241, 0.3)'
+                                    }}
                                 >
                                     {submitting ? 'Submitting...' : <><FaSave /> Save Attendance</>}
                                 </button>

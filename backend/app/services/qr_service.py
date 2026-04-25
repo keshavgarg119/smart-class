@@ -15,38 +15,53 @@ from app.config import settings
 # In production this should be Redis or MongoDB
 _active_sessions: dict = {}
 
-QR_TOKEN_EXPIRE_MINUTES = 5
-QR_SECRET_SUFFIX = ":qr-session"  # Salt to distinguish QR tokens from auth tokens
+QR_TOKEN_EXPIRE_SECONDS = 30 # Short-lived tokens for rotation
+QR_SECRET_SUFFIX = ":qr-session"
 
+# Global session data: {session_id -> {marked_students, ...}}
+_session_data: dict = {}
+# Active tokens: {token -> session_id}
+_token_to_session: dict = {}
 
 def generate_qr_session(teacher_id: str, subject: str, class_id: Optional[str] = None,
                         teacher_lat: Optional[float] = None, teacher_lng: Optional[float] = None) -> dict:
     """
-    Create a new QR session token (5-min expiry) and return:
-    {token, qr_image_base64, session_id, expires_at, subject}
+    Create a new rotating QR token for a session.
+    A session is uniquely identified by teacher_id + subject + date.
     """
-    expires_at = datetime.utcnow() + timedelta(minutes=QR_TOKEN_EXPIRE_MINUTES)
+    date_str = datetime.utcnow().strftime("%Y-%m-%d")
+    session_id = f"{teacher_id}:{subject}:{date_str}"
+    
+    expires_at = datetime.utcnow() + timedelta(seconds=QR_TOKEN_EXPIRE_SECONDS)
 
     payload = {
         "type": "qr_session",
-        "teacher_id": teacher_id,
-        "subject": subject,
-        "class_id": class_id or "",
+        "session_id": session_id,
         "exp": expires_at,
         "iat": datetime.utcnow(),
     }
     token = jwt.encode(payload, settings.SECRET_KEY + QR_SECRET_SUFFIX, algorithm=settings.ALGORITHM)
 
-    # Store session
-    _active_sessions[token] = {
-        "teacher_id": teacher_id,
-        "subject": subject,
-        "class_id": class_id,
-        "expires_at": expires_at,
-        "marked_students": [],
-        "teacher_lat": teacher_lat,   # teacher's live GPS
-        "teacher_lng": teacher_lng,
-    }
+    # Initialize or update session data
+    if session_id not in _session_data:
+        _session_data[session_id] = {
+            "teacher_id": teacher_id,
+            "subject": subject,
+            "class_id": class_id,
+            "marked_students": [],
+            "teacher_lat": teacher_lat,
+            "teacher_lng": teacher_lng,
+            "active": True
+        }
+    else:
+        # Update location if provided in new generation
+        if teacher_lat is not None:
+            _session_data[session_id]["teacher_lat"] = teacher_lat
+            _session_data[session_id]["teacher_lng"] = teacher_lng
+        _session_data[session_id]["active"] = True
+
+    # Link token to session
+    _token_to_session[token] = session_id
 
     # Generate QR image
     qr_image_b64 = _generate_qr_image(token)
@@ -78,28 +93,46 @@ def verify_qr_token(token: str) -> dict:
     if payload.get("type") != "qr_session":
         raise ValueError("Token is not a QR session token")
 
-    session = _active_sessions.get(token)
-    if not session:
-        raise ValueError("QR session not found or expired")
+    session_id = _token_to_session.get(token)
+    if not session_id:
+        raise ValueError("This QR code has been rotated. Please scan the latest one.")
 
-    if datetime.utcnow() > session["expires_at"]:
-        _active_sessions.pop(token, None)
-        raise ValueError("QR session has expired")
+    session = _session_data.get(session_id)
+    if not session or not session.get("active"):
+        raise ValueError("This QR session has been closed by the teacher.")
 
     return session
 
 
 def mark_student_in_session(token: str, student_id: str) -> bool:
     """
-    Mark a student as having used this QR. Returns False if already marked (prevents duplicate).
+    Mark a student as having used this QR. Returns False if already marked.
     """
-    session = _active_sessions.get(token)
-    if not session:
+    session_id = _token_to_session.get(token)
+    if not session_id:
         return False
+    
+    session = _session_data.get(session_id)
+    if not session or not session.get("active"):
+        return False
+
     if student_id in session["marked_students"]:
         return False
+    
     session["marked_students"].append(student_id)
     return True
+
+
+def close_session(teacher_id: str, subject: str) -> bool:
+    """
+    Manually close a session so no more attendance can be marked.
+    """
+    date_str = datetime.utcnow().strftime("%Y-%m-%d")
+    session_id = f"{teacher_id}:{subject}:{date_str}"
+    if session_id in _session_data:
+        _session_data[session_id]["active"] = False
+        return True
+    return False
 
 
 def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:

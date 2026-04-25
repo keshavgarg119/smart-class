@@ -236,214 +236,211 @@ const StudentProfile = () => {
                     </div>
                 )}
 
-                <div className="dashboard-section" style={{ maxWidth: '600px' }}>
-                    {/* Hidden file input */}
-                    <input type="file" ref={fileInputRef} accept="image/*" style={{ display: 'none' }} onChange={handlePhotoUpload} />
+                <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+                    {/* --- LEFT SIDE: FORM --- */}
+                    <div className="dashboard-section" style={{ flex: '1 1 500px', maxWidth: '700px' }}>
+                        {/* Hidden file input */}
+                        <input type="file" ref={fileInputRef} accept="image/*" style={{ display: 'none' }} onChange={handlePhotoUpload} />
 
-                    {/* Profile Photo */}
-                    <div style={{
-                        display: 'flex', flexDirection: 'column', alignItems: 'center',
-                        marginBottom: '2rem', paddingBottom: '2rem',
-                        borderBottom: '1px solid var(--gray-200)'
-                    }}>
-                        <div ref={menuRef} style={{ position: 'relative', overflow: 'visible' }}>
-                            <div
-                                onClick={() => !uploading && setShowPhotoMenu(!showPhotoMenu)}
-                                style={{
-                                    width: '120px', height: '120px', borderRadius: '50%',
-                                    overflow: 'hidden',
-                                    border: '4px solid var(--primary-500)',
-                                    boxShadow: '0 4px 15px rgba(99, 102, 241, 0.3)',
-                                    background: faceImageUrl ? 'transparent' : 'linear-gradient(135deg, var(--primary-500), var(--primary-700))',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    position: 'relative', cursor: 'pointer',
-                                    transition: 'transform 0.2s ease, box-shadow 0.2s ease'
-                                }}
-                                onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(99, 102, 241, 0.4)'; }}
-                                onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 15px rgba(99, 102, 241, 0.3)'; }}
-                                title="Click to change photo"
-                            >
-                                {faceImageUrl ? (
-                                    <img src={faceImageUrl} alt="Profile"
-                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                        onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
-                                    />
-                                ) : null}
-                                <div style={{
-                                    display: faceImageUrl ? 'none' : 'flex',
-                                    alignItems: 'center', justifyContent: 'center',
-                                    width: '100%', height: '100%',
-                                    color: 'white', fontSize: '2.5rem', fontWeight: 700
-                                }}>
-                                    {uploading ? <div className="spinner" style={{ width: '32px', height: '32px' }}></div> : initials}
-                                </div>
-                                {/* Camera overlay on hover */}
-                                <div className="photo-overlay" style={{
-                                    position: 'absolute', bottom: 0, left: 0, right: 0,
-                                    height: '36px', background: 'rgba(0,0,0,0.6)',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    gap: '0.25rem', color: 'white', fontSize: '0.65rem', fontWeight: 600,
-                                    opacity: 0, transition: 'opacity 0.2s ease'
-                                }}>
-                                    <FaCamera /> {faceImageUrl ? 'Change' : 'Add Photo'}
-                                </div>
-                            </div>
-
-                            {/* Dropdown menu */}
-                            {showPhotoMenu && (
-                                <div style={{
-                                    position: 'absolute', top: '130px', left: '50%', transform: 'translateX(-50%)',
-                                    background: '#ffffff', borderRadius: '12px',
-                                    boxShadow: '0 8px 30px rgba(0,0,0,0.2)', border: '1px solid #e5e7eb',
-                                    zIndex: 9999, minWidth: '220px', overflow: 'hidden',
-                                    animation: 'fadeIn 0.15s ease'
-                                }}>
-                                    <button
-                                        onClick={() => { setShowPhotoMenu(false); fileInputRef.current?.click(); }}
-                                        style={{
-                                            display: 'flex', alignItems: 'center', gap: '0.75rem',
-                                            width: '100%', padding: '0.85rem 1.25rem',
-                                            border: 'none', background: 'transparent', cursor: 'pointer',
-                                            fontSize: '0.9rem', color: '#374151',
-                                            transition: 'background 0.15s ease', textAlign: 'left'
-                                        }}
-                                        onMouseEnter={e => e.currentTarget.style.background = '#f3f4f6'}
-                                        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-                                    >
-                                        <FaUpload style={{ color: '#6366f1' }} /> Upload from Files
-                                    </button>
-                                    <div style={{ height: '1px', background: '#e5e7eb' }} />
-                                    <button
-                                        onClick={() => { setShowPhotoMenu(false); setShowCamera(true); }}
-                                        style={{
-                                            display: 'flex', alignItems: 'center', gap: '0.75rem',
-                                            width: '100%', padding: '0.85rem 1.25rem',
-                                            border: 'none', background: 'transparent', cursor: 'pointer',
-                                            fontSize: '0.9rem', color: '#374151',
-                                            transition: 'background 0.15s ease', textAlign: 'left'
-                                        }}
-                                        onMouseEnter={e => e.currentTarget.style.background = '#f3f4f6'}
-                                        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-                                    >
-                                        <FaVideo style={{ color: '#16a34a' }} /> Take a Photo
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-
-                        <h3 style={{ margin: '0.75rem 0 0', color: 'var(--gray-900)' }}>{user.full_name || user.username}</h3>
+                        {/* Profile Photo Area */}
                         <div style={{
-                            display: 'flex', alignItems: 'center', gap: '0.4rem',
-                            marginTop: '0.25rem', fontSize: '0.85rem'
+                            display: 'flex', flexDirection: 'column', alignItems: 'center',
+                            marginBottom: '2rem', paddingBottom: '2rem',
+                            borderBottom: '1px solid var(--gray-200)'
                         }}>
-                            {student?.has_face_encoding ? (
-                                <span style={{ color: 'var(--success-600)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                                    <FaCheckCircle /> Face Registered
-                                </span>
-                            ) : (
-                                <span
-                                    style={{ color: 'var(--primary-600)', display: 'flex', alignItems: 'center', gap: '0.25rem', cursor: 'pointer' }}
-                                    onClick={() => setShowPhotoMenu(true)}
+                            <div ref={menuRef} style={{ position: 'relative', overflow: 'visible' }}>
+                                <div
+                                    onClick={() => !uploading && setShowPhotoMenu(!showPhotoMenu)}
+                                    style={{
+                                        width: '120px', height: '120px', borderRadius: '50%',
+                                        overflow: 'hidden',
+                                        border: '4px solid var(--primary-500)',
+                                        boxShadow: '0 4px 15px rgba(99, 102, 241, 0.3)',
+                                        background: faceImageUrl ? 'transparent' : 'linear-gradient(135deg, var(--primary-500), var(--primary-700))',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        position: 'relative', cursor: 'pointer',
+                                        transition: 'transform 0.2s ease'
+                                    }}
+                                    onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
+                                    onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
                                 >
-                                    <FaCamera /> Click to add photo
-                                </span>
-                            )}
-                        </div>
-                    </div>
+                                    {faceImageUrl ? (
+                                        <img src={faceImageUrl} alt="Profile"
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                            onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+                                        />
+                                    ) : null}
+                                    <div style={{
+                                        display: faceImageUrl ? 'none' : 'flex',
+                                        alignItems: 'center', justifyContent: 'center',
+                                        width: '100%', height: '100%',
+                                        color: 'white', fontSize: '2.5rem', fontWeight: 700
+                                    }}>
+                                        {uploading ? <div className="spinner" style={{ width: '32px', height: '32px' }}></div> : initials}
+                                    </div>
+                                    <div className="photo-overlay" style={{
+                                        position: 'absolute', bottom: 0, left: 0, right: 0,
+                                        height: '36px', background: 'rgba(0,0,0,0.6)',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        gap: '0.25rem', color: 'white', fontSize: '0.65rem', fontWeight: 600,
+                                        opacity: 0, transition: 'opacity 0.2s ease'
+                                    }}>
+                                        <FaCamera /> Change
+                                    </div>
+                                </div>
 
-                    {/* Read-only info */}
-                    <div style={{
-                        padding: '1.5rem',
-                        backgroundColor: 'var(--gray-50)',
-                        borderRadius: 'var(--radius-md)',
-                        marginBottom: '2rem'
-                    }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', color: 'var(--gray-700)', fontWeight: 600 }}>
-                            <FaUser /> Account Info
-                        </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                            <div>
-                                <small style={{ color: 'var(--gray-500)' }}>Name</small>
-                                <p style={{ fontWeight: 600, margin: '0.25rem 0' }}>{user.full_name || user.username}</p>
+                                {showPhotoMenu && (
+                                    <div style={{
+                                        position: 'absolute', top: '130px', left: '50%', transform: 'translateX(-50%)',
+                                        background: '#ffffff', borderRadius: '12px',
+                                        boxShadow: '0 8px 30px rgba(0,0,0,0.2)', border: '1px solid #e5e7eb',
+                                        zIndex: 9999, minWidth: '220px', overflow: 'hidden'
+                                    }}>
+                                        <button onClick={() => { setShowPhotoMenu(false); fileInputRef.current?.click(); }} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', width: '100%', padding: '0.85rem 1.25rem', border: 'none', background: 'transparent', cursor: 'pointer', fontSize: '0.9rem', color: '#374151' }}>
+                                            <FaUpload style={{ color: '#6366f1' }} /> Upload from Files
+                                        </button>
+                                        <button onClick={() => { setShowPhotoMenu(false); setShowCamera(true); }} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', width: '100%', padding: '0.85rem 1.25rem', border: 'none', background: 'transparent', cursor: 'pointer', fontSize: '0.9rem', color: '#374151' }}>
+                                            <FaVideo style={{ color: '#16a34a' }} /> Take a Photo
+                                        </button>
+                                    </div>
+                                )}
                             </div>
-                            <div>
-                                <small style={{ color: 'var(--gray-500)' }}>Email</small>
-                                <p style={{ fontWeight: 600, margin: '0.25rem 0' }}>{user.email}</p>
-                            </div>
-                            <div>
-                                <small style={{ color: 'var(--gray-500)' }}>Student ID</small>
-                                <p style={{ fontWeight: 600, margin: '0.25rem 0' }}>{student?.student_id || 'N/A'}</p>
-                            </div>
-                        </div>
-                    </div>
 
-                    {/* Editable fields */}
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <label className="form-label"><FaBuilding /> Department</label>
-                            <select
-                                name="department"
-                                className="form-select"
-                                value={formData.department}
-                                onChange={handleChange}
-                            >
-                                <option value="">Select Department</option>
-                                {DEPARTMENTS.map(d => <option key={d} value={d}>{d}</option>)}
-                            </select>
+                            <h3 style={{ margin: '0.75rem 0 0', color: 'var(--gray-900)' }}>{user.full_name || user.username}</h3>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.25rem', fontSize: '0.85rem' }}>
+                                {student?.has_face_encoding ? (
+                                    <span style={{ color: 'var(--success-600)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                                        <FaCheckCircle /> Face Biometrics Active
+                                    </span>
+                                ) : (
+                                    <span style={{ color: 'var(--primary-600)', display: 'flex', alignItems: 'center', gap: '0.25rem', cursor: 'pointer' }} onClick={() => setShowPhotoMenu(true)}>
+                                        <FaCamera /> Setup Biometrics
+                                    </span>
+                                )}
+                            </div>
                         </div>
 
-                        <div className="form-row">
+                        {/* Editable Form */}
+                        <form onSubmit={handleSubmit}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem', backgroundColor: 'var(--gray-50)', padding: '1.5rem', borderRadius: '16px' }}>
+                                <div>
+                                    <small style={{ color: 'var(--gray-500)', textTransform: 'uppercase', fontSize: '0.7rem', fontWeight: 700 }}>Full Name</small>
+                                    <p style={{ fontWeight: 600, margin: '0.25rem 0' }}>{user.full_name || user.username}</p>
+                                </div>
+                                <div>
+                                    <small style={{ color: 'var(--gray-500)', textTransform: 'uppercase', fontSize: '0.7rem', fontWeight: 700 }}>Student ID</small>
+                                    <p style={{ fontWeight: 600, margin: '0.25rem 0' }}>{student?.student_id || 'N/A'}</p>
+                                </div>
+                            </div>
+
                             <div className="form-group">
-                                <label className="form-label"><FaIdCard /> Semester</label>
-                                <select
-                                    name="year"
-                                    className="form-select"
-                                    value={formData.year}
-                                    onChange={handleChange}
-                                >
-                                    <option value="">Select Semester</option>
-                                    {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
-                                        <option key={n} value={n}>Semester {n}</option>
-                                    ))}
+                                <label className="form-label"><FaBuilding /> Department</label>
+                                <select name="department" className="form-select" value={formData.department} onChange={handleChange}>
+                                    <option value="">Select Department</option>
+                                    {DEPARTMENTS.map(d => <option key={d} value={d}>{d}</option>)}
                                 </select>
                             </div>
 
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label className="form-label"><FaIdCard /> Semester</label>
+                                    <select name="year" className="form-select" value={formData.year} onChange={handleChange}>
+                                        <option value="">Select Semester</option>
+                                        {[1, 2, 3, 4, 5, 6, 7, 8].map(n => <option key={n} value={n}>Semester {n}</option>)}
+                                    </select>
+                                </div>
+
+                                <div className="form-group">
+                                    <label className="form-label"><FaLayerGroup /> Batch / Subgroup</label>
+                                    <select name="batch" className="form-select" value={formData.batch} onChange={handleChange} disabled={!formData.department || !formData.year}>
+                                        <option value="">{!formData.department || !formData.year ? 'Select Dept & Semester first' : 'Select Batch'}</option>
+                                        {availableBatches.map(b => <option key={b} value={b}>{b}</option>)}
+                                    </select>
+                                </div>
+                            </div>
+
                             <div className="form-group">
-                                <label className="form-label"><FaLayerGroup /> Batch / Subgroup</label>
-                                <select
-                                    name="batch"
-                                    className="form-select"
-                                    value={formData.batch}
-                                    onChange={handleChange}
-                                    disabled={!formData.department || !formData.year}
-                                >
-                                    <option value="">{!formData.department || !formData.year ? 'Select Dept & Semester first' : 'Select Batch'}</option>
-                                    {availableBatches.map(b => <option key={b} value={b}>{b}</option>)}
-                                </select>
+                                <label className="form-label">Phone Number</label>
+                                <input type="tel" name="phone" className="form-input" placeholder="e.g., 9876543210" value={formData.phone} onChange={handleChange} />
+                            </div>
+
+                            <div style={{ marginTop: '2.5rem', display: 'flex', justifyContent: 'flex-end' }}>
+                                <button type="submit" className="btn btn-primary btn-lg" disabled={saving} style={{ padding: '1rem 2.5rem', borderRadius: '12px', boxShadow: '0 10px 15px -3px rgba(99, 102, 241, 0.3)' }}>
+                                    {saving ? 'Saving...' : <><FaSave /> Save Changes</>}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    {/* --- RIGHT SIDE: FUTURISTIC PANEL --- */}
+                    <div style={{ flex: '1 1 350px', padding: 'var(--spacing-xl) 0' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                            <div style={{ 
+                                background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', 
+                                borderRadius: '24px', 
+                                height: '420px', 
+                                overflow: 'hidden', 
+                                position: 'relative',
+                                boxShadow: '0 20px 50px rgba(0,0,0,0.3)',
+                                border: '1px solid rgba(255,255,255,0.1)'
+                            }}>
+                                <img 
+                                    src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop" 
+                                    alt="Futuristic Tech" 
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.6 }}
+                                />
+                                <div style={{ 
+                                    position: 'absolute', inset: 0, 
+                                    background: 'linear-gradient(to bottom, transparent, rgba(15, 23, 42, 0.8))',
+                                    padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end'
+                                }}>
+                                    <div style={{ color: '#fbbf24', fontWeight: 800, fontSize: '1.5rem', marginBottom: '0.5rem' }}>Smart Identity</div>
+                                    <p style={{ color: 'white', fontSize: '0.9rem', opacity: 0.8, lineHeight: 1.4 }}>
+                                        Your profile is secured with advanced biometric encryption and real-time attendance verification.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Glassmorphism Cards on the same line */}
+                            <div style={{ display: 'flex', gap: '1rem' }}>
+                                <div style={{ 
+                                    flex: 1,
+                                    background: 'rgba(255, 255, 255, 0.05)', 
+                                    backdropFilter: 'blur(10px)',
+                                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                                    borderRadius: '20px',
+                                    padding: '1.25rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem'
+                                }}>
+                                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(74, 222, 128, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#4ade80' }}>
+                                        <FaCheckCircle size={20} />
+                                    </div>
+                                    <div>
+                                        <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>Level: Platinum</div>
+                                        <div style={{ fontSize: '0.7rem', opacity: 0.6 }}>Verified</div>
+                                    </div>
+                                </div>
+
+                                <div style={{ 
+                                    flex: 1,
+                                    background: 'rgba(99, 102, 241, 0.1)', 
+                                    border: '1px solid rgba(99, 102, 241, 0.2)',
+                                    borderRadius: '20px',
+                                    padding: '1.25rem'
+                                }}>
+                                    <div style={{ fontWeight: 700, fontSize: '0.8rem', marginBottom: '0.5rem', color: '#818cf8' }}>COMPLETION</div>
+                                    <div style={{ height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', overflow: 'hidden' }}>
+                                        <div style={{ width: student?.has_face_encoding ? '100%' : '70%', height: '100%', background: '#6366f1' }}></div>
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.4rem', fontSize: '0.7rem' }}>
+                                        <span>{student?.has_face_encoding ? 'Complete' : '70%'}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <div className="form-group">
-                            <label className="form-label">Phone Number</label>
-                            <input
-                                type="tel"
-                                name="phone"
-                                className="form-input"
-                                placeholder="e.g., 9876543210"
-                                value={formData.phone}
-                                onChange={handleChange}
-                            />
-                        </div>
-
-                        <button
-                            type="submit"
-                            className="submit-button"
-                            disabled={saving}
-                            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-                        >
-                            {saving ? 'Saving...' : <><FaSave /> Save Changes</>}
-                        </button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

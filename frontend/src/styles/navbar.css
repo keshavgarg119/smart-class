@@ -85,15 +85,28 @@
 }
 
 .navbar-avatar {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #818cf8, #a5b9fc);
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
-    font-size: 0.875rem;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #1e293b;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-user-name {
+    display: none;
+}
+
+@media (min-width: 1024px) {
+    .navbar-user-name {
+        display: inline;
+    }
 }
 
 .navbar-dropdown {

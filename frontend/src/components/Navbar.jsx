@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { FaGraduationCap, FaBars, FaTimes, FaUser, FaSignOutAlt, FaCog, FaMoon, FaSun } from 'react-icons/fa';
-import { ROUTES } from '../utils/constants';
+import { ROUTES, API_BASE_URL } from '../utils/constants';
+import * as studentService from '../services/studentService';
 import '../styles/navbar.css';
 
 const Navbar = () => {
@@ -13,6 +14,17 @@ const Navbar = () => {
   const location = useLocation();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [studentPhoto, setStudentPhoto] = useState(null);
+
+  useEffect(() => {
+    if (isStudent && user?.id) {
+      studentService.getStudent(user.id).then(data => {
+        if (data?.face_image) {
+          setStudentPhoto(`${API_BASE_URL}/uploads/faces/${data.face_image}`);
+        }
+      }).catch(() => {});
+    }
+  }, [isStudent, user]);
 
   const handleLogout = () => {
     logout();
@@ -116,17 +128,24 @@ const Navbar = () => {
               onClick={() => setShowDropdown(!showDropdown)}
             >
               <div className="navbar-avatar">
-                {user?.name?.charAt(0).toUpperCase()}
+                {studentPhoto ? (
+                  <img src={studentPhoto} alt="Profile" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                ) : (
+                  (user?.full_name || user?.username || '?').charAt(0).toUpperCase()
+                )}
               </div>
-              <span>{user?.name}</span>
+              <span className="navbar-user-name">{user?.full_name || user?.username}</span>
             </button>
 
             <div className={`navbar-dropdown ${showDropdown ? 'show' : ''}`}>
-              <div className="navbar-dropdown-item">
+              <div 
+                className="navbar-dropdown-item"
+                onClick={() => { if(isStudent) { setShowDropdown(false); navigate('/student/profile'); } }}
+              >
                 <FaUser />
                 <div>
-                  <div style={{ fontWeight: 600 }}>{user?.name}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)' }}>
+                  <div style={{ fontWeight: 600 }}>{user?.full_name || user?.username}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)', textTransform: 'capitalize' }}>
                     {user?.role}
                   </div>
                 </div>
@@ -134,10 +153,15 @@ const Navbar = () => {
 
               <div className="navbar-dropdown-divider" />
 
-              <div className="navbar-dropdown-item">
-                <FaCog />
-                <span>Settings</span>
-              </div>
+              {isStudent && (
+                <div 
+                  className="navbar-dropdown-item" 
+                  onClick={() => { setShowDropdown(false); navigate('/student/profile'); }}
+                >
+                  <FaCog />
+                  <span>Profile Settings</span>
+                </div>
+              )}
 
               <div
                 className="navbar-dropdown-item"

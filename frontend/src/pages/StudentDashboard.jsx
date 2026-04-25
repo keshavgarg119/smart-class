@@ -44,22 +44,41 @@ const StudentDashboard = () => {
 
             // Fetch heatmap, prediction, and timetable
             try {
-                const [heatRes, predRes, timetableRes] = await Promise.all([
+                const [heatRes, predRes] = await Promise.all([
                     api.get(`/attendance/student/${studentId}/heatmap`),
-                    api.get(`/attendance/student/${studentId}/prediction`),
-                    api.get(`/timetable/?department=${studentData.department}&semester=${studentData.year}&batch=${studentData.batch || ''}`)
+                    api.get(`/attendance/student/${studentId}/prediction`)
                 ]);
                 setHeatmapData(heatRes.data);
                 setPrediction(predRes.data);
 
-                // Filter timetable for today
+                // Fetch timetable (Prioritize ACM data if batch exists)
                 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
                 const todayName = days[new Date().getDay()];
-                const todaysClasses = timetableRes.data
-                    .filter(c => c.day === todayName)
-                    .sort((a, b) => a.time_slot.localeCompare(b.time_slot));
-
-                setTodaySchedule(todaysClasses);
+                
+                if (studentData.batch) {
+                    try {
+                        const acmRes = await api.get(`/timetable/acm/${studentData.batch}`);
+                        const todayAcm = acmRes.data[todayName] || {};
+                        const formattedAcm = Object.entries(todayAcm).map(([time, data]) => ({
+                            id: `acm-${time}`,
+                            time_slot: time,
+                            subject: data[2],
+                            code: data[0],
+                            room: data[1],
+                            type: data[3] || 'Lecture',
+                            teacher: 'N/A'
+                        })).sort((a, b) => a.time_slot.localeCompare(b.time_slot));
+                        
+                        setTodaySchedule(formattedAcm);
+                    } catch (acmErr) {
+                        // Fallback to custom timetable
+                        const timetableRes = await api.get(`/timetable/?department=${studentData.department}&semester=${studentData.year}&batch=${studentData.batch}`);
+                        const todaysClasses = timetableRes.data
+                            .filter(c => c.day === todayName)
+                            .sort((a, b) => a.time_slot.localeCompare(b.time_slot));
+                        setTodaySchedule(todaysClasses);
+                    }
+                }
             } catch (e) {
                 console.warn('Additional data unavailable', e);
             }
