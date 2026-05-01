@@ -12,7 +12,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-def register(user: UserCreate, db = Depends(get_db)):
+def register(user: UserCreate, db=Depends(get_db)):
     """Register a new user (student / teacher / admin)"""
     if auth_service.get_user_by_email(db, user.email):
         raise HTTPException(
@@ -28,7 +28,7 @@ def register(user: UserCreate, db = Depends(get_db)):
 
 
 @router.post("/login", response_model=Token)
-def login(form_data: OAuth2PasswordRequestForm = Depends(), db = Depends(get_db)):
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db=Depends(get_db)):
     """Login with username/email + password, returns JWT access token"""
     user = auth_service.authenticate_user(db, form_data.username, form_data.password)
     if not user:

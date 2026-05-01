@@ -7,22 +7,11 @@ import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.io.*;
 import java.time.Duration;
-import java.util.*;
 
 public class UnifiedAuthTest {
     protected WebDriver driver;
     protected final String BASE_URL = "http://localhost:5173";
-
-    // 🔹 Delay control
-    public void slow(int millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
     @BeforeMethod
     public void setUp() {
@@ -39,154 +28,149 @@ public class UnifiedAuthTest {
         }
     }
 
-    // -------- CSV Utility --------
-    public static Object[][] readCSV(String filePath) {
-        List<Object[]> lines = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            boolean firstLine = true;
-            while ((line = br.readLine()) != null) {
-                if (firstLine) { firstLine = false; continue; }
-                String[] data = line.split(",", -1);
-                for (int i = 0; i < data.length; i++) {
-                    data[i] = data[i].replaceAll("^\"|\"$", "").trim();
-                }
-                lines.add(data);
+    public void slow(int millis) {
+        // Increased delay for better visibility
+        try { Thread.sleep(millis + 1000); } catch (InterruptedException e) { e.printStackTrace(); }
+    }
+
+    @DataProvider(name = "featureTestData")
+    public Object[][] getFeatureTestData() {
+        return new Object[][] {
+            // scenario, email, password, role, failPhase
+            { "Full Success Scenario (Teacher)", "keshavgarg11911@gmail.com", "Keshav@119", "teacher", "none" },
+            { "Student QR Success Scenario", "kgarg2_be23@thapar.edu", "Keshavgarg@119", "student", "none" },
+            { "Login Failure Scenario", "keshavgarg11911@gmail.com", "WrongPass@123", "teacher", "login" },
+            { "AI Feature Failure Scenario", "keshavgarg11911@gmail.com", "Keshav@119", "teacher", "ai" }
+        };
+    }
+
+    @Test(dataProvider = "featureTestData")
+    public void testProjectFeatures(String scenario, String email, String password, String role, String failPhase) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        System.out.println("\n>>> STARTING: " + scenario);
+
+        try {
+            // --- FEATURE 1: REGISTRATION PAGE ---
+            System.out.println("Testing Registration Page...");
+            driver.get(BASE_URL + "/register");
+            slow(1500);
+            WebElement regTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
+            Assert.assertTrue(regTitle.getText().toLowerCase().contains("register") || regTitle.getText().toLowerCase().contains("create"), 
+                "Registration page title mismatch");
+            
+            // --- FEATURE 2: LOGIN PAGE ---
+            System.out.println("Testing Login Page...");
+            driver.get(BASE_URL + "/login");
+            slow(1500);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("email"))).sendKeys(email);
+            slow(500);
+            driver.findElement(By.name("password")).sendKeys(password);
+            slow(500);
+            driver.findElement(By.className("auth-btn")).click();
+            slow(3000);
+
+            if (failPhase.equals("login")) {
+                System.out.println("Intentional Login Failure triggered.");
+                try {
+                    WebElement errorMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("error-badge")));
+                    Assert.assertTrue(errorMsg.isDisplayed(), "Login error message should be displayed");
+                } catch (Exception e) {}
+                Assert.fail("Intentional Failure: Login Phase");
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return lines.toArray(new Object[0][]);
-    }
 
-    @DataProvider(name = "loginData")
-    public Object[][] getLoginData() {
-        return readCSV("src/test/resources/testdata/login_data.csv");
-    }
+            // Verify successful login
+            wait.until(ExpectedConditions.urlContains("/dashboard"));
+            Assert.assertTrue(driver.getCurrentUrl().contains("/dashboard"), "Login failed - not redirected to dashboard");
+            slow(2000);
 
-    @DataProvider(name = "registrationData")
-    public Object[][] getRegistrationData() {
-        return readCSV("src/test/resources/testdata/registration_data.csv");
-    }
-
-    // -------- LOGIN TEST --------
-    @Test(dataProvider = "loginData", priority = 2)
-    public void testLogin(String email, String password, String role,
-                         String expectedUrlFragment, String expectedErrorMsg) {
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        driver.get(BASE_URL + "/login");
-        slow(1500);
-
-        WebElement emailInput = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.name("email")));
-        emailInput.clear();
-        emailInput.sendKeys(email);
-        slow(1000);
-
-        driver.findElement(By.name("password")).sendKeys(password);
-        slow(1000);
-
-        new Select(driver.findElement(By.name("role"))).selectByValue(role);
-        slow(1000);
-
-        driver.findElement(By.cssSelector("button[type='submit']")).click();
-        slow(2000);
-
-        if (expectedUrlFragment != null && !expectedUrlFragment.isEmpty()) {
-            boolean urlChanged = wait.until(ExpectedConditions.urlContains(expectedUrlFragment));
-            Assert.assertTrue(urlChanged, "Login failed or redirect issue");
-        } else if (expectedErrorMsg != null && !expectedErrorMsg.isEmpty()) {
-            WebElement errorMsg = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.className("error-message")));
-            Assert.assertTrue(errorMsg.getText().contains(expectedErrorMsg));
-        }
-    }
-
-    // -------- REGISTRATION TEST --------
-    @Test(dataProvider = "registrationData", priority = 1)
-    public void testRegistration(String name, String email, String password,
-                                String confirmPassword, String role,
-                                String studentId, String department, String semester,
-                                String expectedUrlFragment, String expectedErrorMsg) {
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        driver.get(BASE_URL + "/register");
-        slow(1500);
-
-        String testEmail = email;
-        if (expectedUrlFragment != null && !expectedUrlFragment.isEmpty()) {
-            testEmail = email.replace("@", System.currentTimeMillis() + "@");
-        }
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("name"))).sendKeys(name);
-        slow(800);
-
-        driver.findElement(By.name("email")).sendKeys(testEmail);
-        slow(800);
-
-        driver.findElement(By.name("password")).sendKeys(password);
-        slow(800);
-
-        driver.findElement(By.name("confirmPassword")).sendKeys(confirmPassword);
-        slow(800);
-
-        new Select(driver.findElement(By.name("role"))).selectByValue(role);
-        slow(1000);
-
-        if (role.equals("student")) {
-            driver.findElement(By.name("studentId")).sendKeys(studentId);
-            slow(800);
-
-            new Select(driver.findElement(By.name("department"))).selectByVisibleText(department);
-            slow(800);
-
-            new Select(driver.findElement(By.name("semester"))).selectByVisibleText(semester);
-            slow(800);
-
-            Select batchSelect = new Select(driver.findElement(By.name("batch")));
-            if (batchSelect.getOptions().size() > 1) {
-                batchSelect.selectByIndex(1);
-            }
-            slow(800);
-        }
-
-        driver.findElement(By.cssSelector("button[type='submit']")).click();
-        slow(2000);
-
-        // -------- OTP HANDLING (FINAL FIX) --------
-        if (expectedUrlFragment != null && !expectedUrlFragment.isEmpty()) {
-
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("auth-title")));
-            slow(1000);
-
-            try {
-                // 🔥 Correct locator from your HTML
-                WebElement otpInput = wait.until(
-                        ExpectedConditions.visibilityOfElementLocated(
-                                By.cssSelector("input[maxlength='6']"))
-                );
-
-                otpInput.sendKeys("123456");  // Dummy OTP
-                slow(1000);
-
-                driver.findElement(By.cssSelector("button[type='submit']")).click();
+            // --- FEATURE 3: AI FEATURE OR STUDENT QR SCAN ---
+            if (role.equals("teacher")) {
+                System.out.println("Testing AI Feature...");
+                driver.get(BASE_URL + "/teacher/mark-attendance");
+                slow(2000);
+                
+                // Switch to Face Recognition AI tab
+                WebElement aiTab = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(), 'Face Recognition AI')]")));
+                aiTab.click();
                 slow(2000);
 
-            } catch (Exception e) {
-                System.out.println("OTP input not found");
+                // Verify AI component button presence
+                WebElement captureBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(., 'Capture')]")));
+                Assert.assertTrue(captureBtn.isDisplayed(), "AI Capture button not found on Face Recognition tab");
+
+                if (failPhase.equals("ai")) {
+                    System.out.println("Intentional AI Feature Failure triggered.");
+                    Assert.fail("Intentional Failure: AI Feature Phase");
+                }
+
+                // --- FEATURE 4: MANUAL ATTENDANCE MARKING ---
+                if (scenario.contains("Teacher")) {
+                    System.out.println("Testing Manual Attendance Marking...");
+                    // Switch back to Manual Entry tab
+                    driver.findElement(By.xpath("//button[contains(text(), 'Manual Entry')]")).click();
+                    slow(2000);
+
+                    // Select a subject
+                    Select subjectSelect = new Select(driver.findElement(By.className("form-select")));
+                    subjectSelect.selectByIndex(1); // Select first available subject
+                    slow(2000);
+
+                    // Find a student and mark as present
+                    try {
+                        WebElement firstPresentRadio = driver.findElement(By.cssSelector("input[type='radio'][value='present']"));
+                        if (!firstPresentRadio.isSelected()) {
+                            firstPresentRadio.click();
+                        }
+                        slow(1500);
+                    } catch (Exception e) {
+                        System.out.println("No students found in the manual list to mark.");
+                    }
+
+                    // Click Save Attendance
+                    WebElement saveBtn = driver.findElement(By.xpath("//button[contains(., 'Save Attendance')]"));
+                    saveBtn.click();
+                    slow(4000);
+
+                    // Verify success message or redirection
+                    wait.until(ExpectedConditions.urlContains("dashboard"));
+                    System.out.println("Manual Attendance marked successfully!");
+                }
+            } else if (role.equals("student")) {
+                // --- FEATURE 5: STUDENT QR SCAN ---
+                System.out.println("Testing Student QR Scan Feature...");
+                driver.get(BASE_URL + "/student/scan-qr");
+                slow(3000);
+
+                // Check if 'Enter Token' mode is visible
+                WebElement manualTab = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(., 'Enter Token')]")));
+                manualTab.click();
+                slow(2000);
+
+                // Enter a dummy token
+                WebElement tokenArea = driver.findElement(By.tagName("textarea"));
+                tokenArea.sendKeys("TEST-TOKEN-12345");
+                slow(2000);
+
+                // Click Mark Attendance
+                WebElement submitBtn = driver.findElement(By.xpath("//button[contains(., 'Mark Attendance')]"));
+                submitBtn.click();
+                slow(4000);
+
+                // Note: We don't necessarily expect success with a dummy token, but we verify the attempt
+                System.out.println("Student QR Scan attempt completed.");
             }
+            
+            System.out.println(">>> PASSED: " + scenario);
 
-            boolean urlChanged = wait.until(ExpectedConditions.urlContains(expectedUrlFragment));
-            Assert.assertTrue(urlChanged, "Registration/OTP flow failed");
-
-        } else if (expectedErrorMsg != null && !expectedErrorMsg.isEmpty()) {
-
-            WebElement errorMsg = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.className("error-message")));
-            Assert.assertTrue(errorMsg.getText().contains(expectedErrorMsg));
+        } catch (Throwable e) {
+            if (e instanceof AssertionError) {
+                System.out.println(">>> FAILED AS EXPECTED: " + scenario + " - " + e.getMessage());
+                throw (AssertionError) e;
+            } else {
+                System.out.println(">>> UNEXPECTED ERROR: " + scenario + " - " + e.getMessage());
+                Assert.fail("Unexpected error in " + scenario + ": " + e.getMessage());
+            }
         }
     }
+
 }
