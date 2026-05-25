@@ -30,17 +30,21 @@ public class UnifiedAuthTest {
 
     public void slow(int millis) {
         // Increased delay for better visibility
-        try { Thread.sleep(millis + 1000); } catch (InterruptedException e) { e.printStackTrace(); }
+        try {
+            Thread.sleep(millis + 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @DataProvider(name = "featureTestData")
     public Object[][] getFeatureTestData() {
         return new Object[][] {
-            // scenario, email, password, role, failPhase
-            { "Full Success Scenario (Teacher)", "keshavgarg11911@gmail.com", "Keshav@119", "teacher", "none" },
-            { "Student QR Success Scenario", "kgarg2_be23@thapar.edu", "Keshavgarg@119", "student", "none" },
-            { "Login Failure Scenario", "keshavgarg11911@gmail.com", "WrongPass@123", "teacher", "login" },
-            { "AI Feature Failure Scenario", "keshavgarg11911@gmail.com", "Keshav@119", "teacher", "ai" }
+                // scenario, email, password, role, failPhase
+                { "Full Success Scenario (Teacher)", "jsingh7_be23@thapar.edu", "Jaskirat@123", "teacher", "none" },
+                { "Student QR Success Scenario", "sbishnoi_be23@thapar.edu", "Shubham@123", "student", "none" },
+                { "Login Failure Scenario", "jsingh7_be23@thapar.edu", "WrongPass@123", "teacher", "login" },
+                { "AI Feature Failure Scenario", "jsingh7_be23@thapar.edu", "Jaskirat@123", "teacher", "ai" }
         };
     }
 
@@ -55,9 +59,11 @@ public class UnifiedAuthTest {
             driver.get(BASE_URL + "/register");
             slow(1500);
             WebElement regTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
-            Assert.assertTrue(regTitle.getText().toLowerCase().contains("register") || regTitle.getText().toLowerCase().contains("create"), 
-                "Registration page title mismatch");
-            
+            Assert.assertTrue(
+                    regTitle.getText().toLowerCase().contains("register")
+                            || regTitle.getText().toLowerCase().contains("create"),
+                    "Registration page title mismatch");
+
             // --- FEATURE 2: LOGIN PAGE ---
             System.out.println("Testing Login Page...");
             driver.get(BASE_URL + "/login");
@@ -72,15 +78,18 @@ public class UnifiedAuthTest {
             if (failPhase.equals("login")) {
                 System.out.println("Intentional Login Failure triggered.");
                 try {
-                    WebElement errorMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("error-badge")));
+                    WebElement errorMsg = wait
+                            .until(ExpectedConditions.visibilityOfElementLocated(By.className("error-badge")));
                     Assert.assertTrue(errorMsg.isDisplayed(), "Login error message should be displayed");
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
                 Assert.fail("Intentional Failure: Login Phase");
             }
 
             // Verify successful login
             wait.until(ExpectedConditions.urlContains("/dashboard"));
-            Assert.assertTrue(driver.getCurrentUrl().contains("/dashboard"), "Login failed - not redirected to dashboard");
+            Assert.assertTrue(driver.getCurrentUrl().contains("/dashboard"),
+                    "Login failed - not redirected to dashboard");
             slow(2000);
 
             // --- FEATURE 3: AI FEATURE OR STUDENT QR SCAN ---
@@ -88,14 +97,16 @@ public class UnifiedAuthTest {
                 System.out.println("Testing AI Feature...");
                 driver.get(BASE_URL + "/teacher/mark-attendance");
                 slow(2000);
-                
+
                 // Switch to Face Recognition AI tab
-                WebElement aiTab = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(), 'Face Recognition AI')]")));
+                WebElement aiTab = wait.until(ExpectedConditions
+                        .elementToBeClickable(By.xpath("//button[contains(text(), 'Face Recognition AI')]")));
                 aiTab.click();
                 slow(2000);
 
                 // Verify AI component button presence
-                WebElement captureBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(., 'Capture')]")));
+                WebElement captureBtn = wait.until(
+                        ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(., 'Capture')]")));
                 Assert.assertTrue(captureBtn.isDisplayed(), "AI Capture button not found on Face Recognition tab");
 
                 if (failPhase.equals("ai")) {
@@ -117,7 +128,8 @@ public class UnifiedAuthTest {
 
                     // Find a student and mark as present
                     try {
-                        WebElement firstPresentRadio = driver.findElement(By.cssSelector("input[type='radio'][value='present']"));
+                        WebElement firstPresentRadio = driver
+                                .findElement(By.cssSelector("input[type='radio'][value='present']"));
                         if (!firstPresentRadio.isSelected()) {
                             firstPresentRadio.click();
                         }
@@ -142,7 +154,8 @@ public class UnifiedAuthTest {
                 slow(3000);
 
                 // Check if 'Enter Token' mode is visible
-                WebElement manualTab = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(., 'Enter Token')]")));
+                WebElement manualTab = wait.until(
+                        ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(., 'Enter Token')]")));
                 manualTab.click();
                 slow(2000);
 
@@ -156,10 +169,11 @@ public class UnifiedAuthTest {
                 submitBtn.click();
                 slow(4000);
 
-                // Note: We don't necessarily expect success with a dummy token, but we verify the attempt
+                // Note: We don't necessarily expect success with a dummy token, but we verify
+                // the attempt
                 System.out.println("Student QR Scan attempt completed.");
             }
-            
+
             System.out.println(">>> PASSED: " + scenario);
 
         } catch (Throwable e) {

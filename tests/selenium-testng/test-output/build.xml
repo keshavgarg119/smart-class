@@ -1,20 +1,22 @@
 <project name="TestNGReport" default="generate-report" basedir=".">
 
     <target name="generate-report">
+        
         <!-- Generate custom report using XSLT -->
         <xslt in="testng-results.xml"
               style="reports.xsl"
               out="custom-report.html"/>
         
-        <!-- Copy standard reports from target (if they exist) -->
+        <!-- Copy standard TestNG reports -->
         <copy todir="." failonerror="false">
-            <fileset dir="../target/surefire-reports">
+            <fileset dir=".">
                 <include name="emailable-report.html"/>
                 <include name="index.html"/>
                 <include name="testng-reports.css"/>
                 <include name="testng-reports.js"/>
             </fileset>
         </copy>
+
     </target>
 
 </project>

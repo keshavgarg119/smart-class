@@ -5,10 +5,9 @@
     <classes>
       <class name="com.smartclass.tests.UnifiedAuthTest">
         <methods>
-          <include name="testRegistration" invocation-numbers="0 1 2"/>
+          <include name="testProjectFeatures" invocation-numbers="2 3"/>
           <include name="setUp"/>
           <include name="tearDown"/>
-          <include name="testLogin" invocation-numbers="0 1 2"/>
         </methods>
       </class> <!-- com.smartclass.tests.UnifiedAuthTest -->
     </classes>

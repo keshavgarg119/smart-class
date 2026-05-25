@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from fastapi import HTTPException, status
@@ -12,13 +13,23 @@ def user_helper(user) -> dict:
     return user
 
 def get_user_by_email(db, email: str):
-    """Get user by email"""
-    user = db.users.find_one({"email": email})
+    """Get user by email (case-insensitive)"""
+    user = db.users.find_one({
+        "email": {
+            "$regex": f"^{re.escape(email)}$",
+            "$options": "i"
+        }
+    })
     return user_helper(user)
 
 def get_user_by_username(db, username: str):
-    """Get user by username"""
-    user = db.users.find_one({"username": username})
+    """Get user by username (case-insensitive)"""
+    user = db.users.find_one({
+        "username": {
+            "$regex": f"^{re.escape(username)}$",
+            "$options": "i"
+        }
+    })
     return user_helper(user)
 
 def create_user(db, user: UserCreate):
@@ -40,10 +51,11 @@ def create_user(db, user: UserCreate):
 
 def authenticate_user(db, username: str, password: str):
     """Authenticate user with username or email and password"""
-    user = get_user_by_username(db, username)
+    identifier = username.strip()
+    user = get_user_by_username(db, identifier)
     if not user:
         # Try email fallback
-        user = get_user_by_email(db, username)
+        user = get_user_by_email(db, identifier)
     if not user:
         return False
     

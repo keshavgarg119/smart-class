@@ -21,6 +21,7 @@ opencv-python>=4.5.0
 
 # Face Recognition (install dlib-binary first with: pip install dlib-binary)
 dlib-binary
+face_recognition
 
 # PDF Generation
 fpdf2==2.7.7

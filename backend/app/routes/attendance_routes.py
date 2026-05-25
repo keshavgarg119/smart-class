@@ -45,24 +45,28 @@ async def mark_attendance_by_face(
     confidence = result["confidence"]
     
     # Create attendance record
-    att_dict = {
-        "student_id": str(student_id),
-        "subject": subject,
-        "marked_by": marked_by,
-        "confidence_score": int(confidence * 100),
-        "status": AttendanceStatus.PRESENT.value,
-        "class_date": datetime.utcnow(),
-        "marked_at": datetime.utcnow()
-    }
-    
-    db_result = db.attendance.insert_one(att_dict)
-    
-    return {
-        "message": "Attendance marked successfully",
-        "student_id": str(student_id),
-        "confidence": confidence,
-        "attendance_id": str(db_result.inserted_id)
-    }
+    try:
+        att_dict = {
+            "student_id": str(student_id),
+            "subject": subject,
+            "marked_by": marked_by,
+            "confidence_score": int(confidence * 100),
+            "status": AttendanceStatus.PRESENT.value,
+            "class_date": datetime.utcnow(),
+            "marked_at": datetime.utcnow()
+        }
+        
+        db_result = db.attendance.insert_one(att_dict)
+        
+        return {
+            "message": "Attendance marked successfully",
+            "student_id": str(student_id),
+            "confidence": confidence,
+            "attendance_id": str(db_result.inserted_id)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+
 
 @router.get("/", response_model=List[AttendanceResponse])
 def get_attendance_records(
