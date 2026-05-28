@@ -66,6 +66,12 @@ def send_otp(request: OTPRequest):
     body = f"Your OTP for email verification is: {otp}\n\nThis code expires in 5 minutes.\nIf you did not request this, please ignore this email."
     email_sent = send_email(to_email=request.email, subject=subject, body=body)
     
+    if not email_sent:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to send OTP email. Please verify SMTP configuration or email address."
+        )
+        
     response = {"message": "OTP sent successfully", "email": request.email}
     # If SMTP is using dummy credentials, include the OTP in the response for testing
     from app.config import settings
