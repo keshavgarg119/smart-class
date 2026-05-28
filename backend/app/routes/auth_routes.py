@@ -67,10 +67,13 @@ def send_otp(request: OTPRequest):
     email_sent = send_email(to_email=request.email, subject=subject, body=body)
     
     if not email_sent:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to send OTP email. Please verify SMTP configuration or email address."
-        )
+        response = {
+            "message": "OTP generated (SMTP delivery failed, returning OTP for verification)",
+            "email": request.email,
+            "otp": otp,
+            "warning": "Email delivery failed. Please check SMTP settings. OTP returned in response for testing."
+        }
+        return response
         
     response = {"message": "OTP sent successfully", "email": request.email}
     # If SMTP is using dummy credentials, include the OTP in the response for testing
