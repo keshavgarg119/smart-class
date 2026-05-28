@@ -35,6 +35,7 @@ allowed_origins = [
     "http://127.0.0.1:5175",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://smart-class-ten.vercel.app",
 ]
 
 env_origins = os.getenv("ALLOWED_ORIGINS")
