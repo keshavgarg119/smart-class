@@ -1,0 +1,393 @@
+2026-05-03 13:13:13,188 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-03 13:13:13,189 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-03 13:13:13,189 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-03 13:13:13,189 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-03 13:13:13,190 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-03 13:13:13,191 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-03 13:13:25,588 - app.services.face_service - INFO - Recognizing face: Read 40829 bytes
+2026-05-03 13:13:25,919 - app.services.face_service - INFO - Detected 1 face(s)
+2026-05-03 13:13:26,494 - app.services.face_service - INFO - Liveness check: Laplacian variance = 43.087090206092185
+2026-05-03 13:13:26,819 - app.services.face_service - INFO - Comparing with 4 registered students
+2026-05-03 13:13:26,822 - app.services.face_service - INFO - Best distance: 0.3362923890316377
+2026-05-03 13:13:26,822 - app.services.face_service - INFO - Match found! Student: STU3FB1D0, Confidence: 0.6637076109683623
+2026-05-03 13:14:22,352 - app.services.face_service - INFO - Recognizing face: Read 34791 bytes
+2026-05-03 13:14:22,641 - app.services.face_service - INFO - Detected 1 face(s)
+2026-05-03 13:14:23,167 - app.services.face_service - INFO - Liveness check: Laplacian variance = 40.832654966276195
+2026-05-03 13:14:23,206 - app.services.face_service - INFO - Comparing with 4 registered students
+2026-05-03 13:14:23,206 - app.services.face_service - INFO - Best distance: 0.26041417445084675
+2026-05-03 13:14:23,206 - app.services.face_service - INFO - Match found! Student: 102303889, Confidence: 0.7395858255491532
+2026-05-03 23:24:59,906 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-03 23:24:59,907 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-03 23:24:59,907 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-03 23:24:59,908 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-03 23:24:59,908 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-03 23:24:59,908 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 13:57:26,978 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 13:57:26,979 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 13:57:26,979 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 13:57:26,979 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 13:57:26,979 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 13:57:26,979 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:00:51,149 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:00:51,150 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:00:51,151 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:00:51,152 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:00:51,152 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:00:51,153 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:04:13,273 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:04:13,275 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:04:13,275 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:04:13,275 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:04:13,275 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:04:13,276 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:08:01,896 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:08:01,896 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:08:01,896 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:08:01,897 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:08:01,898 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:08:01,898 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:26:28,101 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:26:28,101 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:26:28,101 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:26:28,102 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:26:28,102 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:26:28,102 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:28:24,632 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:28:24,633 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:28:24,633 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:28:24,633 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:28:24,633 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:28:24,633 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:29:27,505 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:29:27,505 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:29:27,505 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:29:27,505 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:29:27,505 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:29:27,505 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:31:25,631 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:31:25,633 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:31:25,633 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:31:25,633 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:31:25,633 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:31:25,633 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:31:31,843 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:31:31,843 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:31:31,843 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:31:31,844 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:31:31,844 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:31:31,844 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:36:35,663 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:36:35,663 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:36:35,663 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:36:35,664 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:36:35,664 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:36:35,664 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:36:35,664 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:36:35,664 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:36:35,665 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:36:35,665 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:36:35,665 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:36:35,665 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:36:46,153 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:36:46,153 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:36:46,154 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:36:46,154 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:36:46,154 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:36:46,154 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:36:46,158 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:36:46,159 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:36:46,159 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:36:46,159 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:36:46,159 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:36:46,160 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:36:55,295 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:36:55,296 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:36:55,296 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:36:55,297 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:36:55,297 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:36:55,297 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:36:55,304 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:36:55,304 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:36:55,304 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:36:55,305 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:36:55,305 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:36:55,305 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:36:55,320 - app.services.otp_service - INFO - OTP generated for aryankansal113@gmail.com: 002007
+2026-05-04 14:37:03,519 - app.utils.email_utils - INFO - Email sent successfully to aryankansal113@gmail.com
+2026-05-04 14:37:09,321 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:37:09,321 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:37:09,321 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:37:09,322 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:37:09,323 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:37:09,323 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:38:02,522 - app.services.otp_service - INFO - OTP generated for aryankansallm@gmail.com: 481703
+2026-05-04 14:38:06,019 - app.utils.email_utils - INFO - Email sent successfully to aryankansallm@gmail.com
+2026-05-04 14:38:37,128 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:38:44,996 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:38:58,433 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:39:32,252 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:39:32,254 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:39:32,254 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:39:32,254 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:39:32,254 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:39:32,254 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:39:32,294 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:39:32,295 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:39:32,295 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:39:32,295 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:39:32,295 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:39:32,295 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:39:32,298 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:39:32,298 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:39:32,298 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:39:32,298 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:39:32,298 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:39:32,298 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:41:23,543 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:41:43,209 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:42:27,070 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:42:27,070 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:42:27,070 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:42:27,070 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:42:27,070 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:42:27,070 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:42:55,460 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:43:06,603 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:43:15,752 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:43:24,121 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:43:34,020 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:47:06,435 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:48:43,785 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:48:43,785 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:48:43,786 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:48:43,786 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:48:43,786 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:48:43,786 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:49:14,019 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:50:45,929 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:50:45,930 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:50:45,930 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:50:45,930 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:50:45,930 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:50:45,930 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:51:01,008 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:53:33,941 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:53:33,941 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:53:33,942 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:53:33,942 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:53:33,942 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:53:33,944 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:53:51,406 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:54:03,553 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:57:27,836 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:58:33,552 - app.services.face_service - INFO - face_recognition imported from C:\Users\kesha\Desktop\smart-class\.venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 14:58:33,738 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:58:33,738 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 14:58:33,738 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 14:58:33,738 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 14:58:33,738 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 14:58:33,738 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 14:59:36,679 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 14:59:43,949 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 15:00:26,960 - app.services.face_service - INFO - face_recognition imported from C:\Users\kesha\Desktop\smart-class\.venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 15:00:27,173 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:00:27,173 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:00:27,174 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 15:00:27,174 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 15:00:27,174 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 15:00:27,174 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 15:01:09,869 - app.services.face_service - INFO - face_recognition imported from C:\Users\kesha\Desktop\smart-class\.venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 15:01:10,055 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:01:10,056 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:01:10,056 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 15:01:10,056 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 15:01:10,056 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 15:01:10,056 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 15:01:42,590 - app.services.face_service - INFO - face_recognition imported from C:\Users\kesha\Desktop\smart-class\.venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 15:01:42,769 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:01:42,769 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:01:42,769 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 15:01:42,770 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 15:01:42,770 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 15:01:42,770 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 15:03:01,328 - app.services.face_service - INFO - face_recognition imported from C:\Users\kesha\Desktop\smart-class\.venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 15:03:01,526 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:03:01,526 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:03:01,526 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 15:03:01,526 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 15:03:01,527 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 15:03:01,527 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 15:03:38,184 - app.services.face_service - INFO - face_recognition imported from C:\Users\kesha\Desktop\smart-class\.venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 15:03:38,371 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:03:38,371 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:03:38,371 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 15:03:38,371 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 15:03:38,371 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 15:03:38,371 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 15:04:28,569 - app.services.face_service - INFO - face_recognition imported from C:\Users\kesha\Desktop\smart-class\.venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 15:04:28,747 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:04:28,747 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:04:28,747 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 15:04:28,747 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 15:04:28,747 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 15:04:28,747 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 15:05:07,688 - app.services.face_service - INFO - face_recognition imported from C:\Users\kesha\Desktop\smart-class\.venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 15:05:07,920 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:05:07,920 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:05:07,920 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 15:05:07,921 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 15:05:07,921 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 15:05:07,921 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 15:06:36,435 - app.services.face_service - INFO - face_recognition imported from C:\Users\kesha\Desktop\smart-class\.venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 15:06:36,639 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:06:36,639 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:06:36,639 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 15:06:36,639 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 15:06:36,639 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 15:06:36,639 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 15:10:46,258 - app.services.face_service - INFO - face_recognition imported from C:\Users\kesha\Desktop\smart-class\.venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 15:10:46,471 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:10:46,471 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 15:10:46,471 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 15:10:46,471 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 15:10:46,471 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 15:10:46,471 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 15:13:33,235 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 15:14:14,833 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 15:14:25,049 - app.services.face_service - ERROR - face_recognition library is not installed
+2026-05-04 16:06:34,659 - app.services.face_service - INFO - face_recognition imported from c:\users\kesha\desktop\smart-class\backend\venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 16:06:34,851 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 16:06:34,851 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 16:06:34,851 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 16:06:34,851 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 16:06:34,851 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 16:06:34,851 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 16:08:05,519 - app.services.face_service - INFO - face_recognition imported from c:\users\kesha\desktop\smart-class\backend\venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 16:08:05,662 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 16:08:05,662 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 16:08:05,662 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 16:08:05,663 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 16:08:05,663 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 16:08:05,663 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 16:08:43,801 - app.services.face_service - INFO - face_recognition imported from c:\users\kesha\desktop\smart-class\backend\venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 16:08:43,948 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 16:08:43,948 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 16:08:43,948 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 16:08:43,948 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 16:08:43,948 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 16:08:43,948 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 16:10:17,988 - app.services.face_service - INFO - Recognizing face: Read 35606 bytes
+2026-05-04 16:10:18,356 - app.services.face_service - INFO - Detected 1 face(s)
+2026-05-04 16:10:19,002 - app.services.face_service - INFO - Liveness check: Laplacian variance = 9.903444264132009
+2026-05-04 16:10:19,002 - app.services.face_service - WARNING - Liveness check failed: fm=9.903444264132009
+2026-05-04 16:10:30,248 - app.services.face_service - INFO - Recognizing face: Read 35725 bytes
+2026-05-04 16:10:30,524 - app.services.face_service - INFO - Detected 1 face(s)
+2026-05-04 16:10:31,046 - app.services.face_service - INFO - Liveness check: Laplacian variance = 13.200141324936096
+2026-05-04 16:10:31,046 - app.services.face_service - WARNING - Liveness check failed: fm=13.200141324936096
+2026-05-04 16:10:43,099 - app.services.face_service - INFO - Recognizing face: Read 39118 bytes
+2026-05-04 16:10:43,395 - app.services.face_service - INFO - Detected 1 face(s)
+2026-05-04 16:10:43,924 - app.services.face_service - INFO - Liveness check: Laplacian variance = 16.305319081043752
+2026-05-04 16:10:43,924 - app.services.face_service - WARNING - Liveness check failed: fm=16.305319081043752
+2026-05-04 16:12:41,170 - app.services.face_service - INFO - face_recognition imported from c:\users\kesha\desktop\smart-class\backend\venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 16:12:41,532 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 16:12:41,532 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 16:12:41,532 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 16:12:41,533 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 16:12:41,533 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 16:12:41,533 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 16:12:55,972 - app.services.face_service - INFO - Recognizing face: Read 34838 bytes
+2026-05-04 16:12:56,272 - app.services.face_service - INFO - Detected 1 face(s)
+2026-05-04 16:12:56,813 - app.services.face_service - INFO - Liveness check: Laplacian variance = 10.161622644464229
+2026-05-04 16:12:57,171 - app.services.face_service - INFO - Comparing with 4 registered students
+2026-05-04 16:12:57,181 - app.services.face_service - INFO - Best distance: 0.30814838549920903
+2026-05-04 16:12:57,181 - app.services.face_service - INFO - Match found! Student: STU97ABB2, Confidence: 0.6918516145007909
+2026-05-04 16:48:07,796 - app.services.face_service - INFO - face_recognition imported from c:\users\kesha\desktop\smart-class\backend\venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 16:48:07,922 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 16:48:07,922 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 16:48:07,922 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 16:48:07,922 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 16:48:07,922 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 16:48:07,922 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 17:43:16,387 - app.services.face_service - INFO - face_recognition imported from c:\users\kesha\desktop\smart-class\backend\venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 17:43:16,572 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 17:43:16,573 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 17:43:16,573 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 17:43:16,573 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 17:43:16,573 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 17:43:16,573 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-04 17:43:45,197 - app.services.face_service - INFO - Recognizing face: Read 41826 bytes
+2026-05-04 17:43:45,569 - app.services.face_service - INFO - Detected 1 face(s)
+2026-05-04 17:43:46,262 - app.services.face_service - INFO - Liveness check: Laplacian variance = 36.493453700498506
+2026-05-04 17:43:46,314 - app.services.face_service - INFO - Comparing with 4 registered students
+2026-05-04 17:43:46,315 - app.services.face_service - INFO - Best distance: 0.3094683692599364
+2026-05-04 17:43:46,315 - app.services.face_service - INFO - Match found! Student: 102303450, Confidence: 0.6905316307400635
+2026-05-04 17:44:50,976 - app.services.otp_service - INFO - OTP generated for mmittal_be23@thapar.edu: 511817
+2026-05-04 17:44:54,589 - app.utils.email_utils - INFO - Email sent successfully to mmittal_be23@thapar.edu
+2026-05-04 17:45:31,151 - app.services.face_service - INFO - Encoding face: Read 53187 bytes
+2026-05-04 17:45:31,794 - app.services.face_service - INFO - Found 0 faces during encoding
+2026-05-04 17:46:29,467 - app.services.face_service - INFO - Encoding face: Read 53081 bytes
+2026-05-04 17:46:29,796 - app.services.face_service - INFO - Found 1 faces during encoding
+2026-05-04 17:47:10,276 - app.services.face_service - INFO - Recognizing face: Read 53596 bytes
+2026-05-04 17:47:10,570 - app.services.face_service - INFO - Detected 1 face(s)
+2026-05-04 17:47:11,246 - app.services.face_service - INFO - Liveness check: Laplacian variance = 86.67976816697583
+2026-05-04 17:47:11,293 - app.services.face_service - INFO - Comparing with 5 registered students
+2026-05-04 17:47:11,293 - app.services.face_service - INFO - Best distance: 0.23954222996961866
+2026-05-04 17:47:11,293 - app.services.face_service - INFO - Match found! Student: 102303947, Confidence: 0.7604577700303814
+2026-05-04 17:55:38,682 - app.services.face_service - INFO - Recognizing face: Read 43670 bytes
+2026-05-04 17:55:39,006 - app.services.face_service - INFO - Detected 1 face(s)
+2026-05-04 17:55:39,762 - app.services.face_service - INFO - Liveness check: Laplacian variance = 44.368385848414086
+2026-05-04 17:55:39,993 - app.services.face_service - INFO - Comparing with 5 registered students
+2026-05-04 17:55:39,993 - app.services.face_service - INFO - Best distance: 0.3798425933041373
+2026-05-04 17:55:39,993 - app.services.face_service - INFO - Match found! Student: 102303947, Confidence: 0.6201574066958627
+2026-05-04 17:56:42,099 - app.services.face_service - INFO - Recognizing face: Read 43152 bytes
+2026-05-04 17:56:42,744 - app.services.face_service - INFO - Detected 1 face(s)
+2026-05-04 17:56:43,893 - app.services.face_service - INFO - Liveness check: Laplacian variance = 40.155546070932836
+2026-05-04 17:56:44,153 - app.services.face_service - INFO - Comparing with 5 registered students
+2026-05-04 17:56:44,154 - app.services.face_service - INFO - Best distance: 0.4029546528290616
+2026-05-04 17:56:44,154 - app.services.face_service - INFO - Match found! Student: 102303947, Confidence: 0.5970453471709384
+2026-05-04 18:19:44,232 - app.services.face_service - INFO - face_recognition imported from c:\users\kesha\desktop\smart-class\backend\venv\lib\site-packages\face_recognition\__init__.py
+2026-05-04 18:19:44,470 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 18:19:44,470 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-04 18:19:44,470 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-04 18:19:44,471 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-04 18:19:44,472 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-04 18:19:44,472 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-06 11:47:50,897 - app.services.face_service - INFO - face_recognition imported from c:\users\kesha\desktop\smart-class\backend\venv\lib\site-packages\face_recognition\__init__.py
+2026-05-06 11:47:51,218 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-06 11:47:51,218 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-06 11:47:51,218 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-06 11:47:51,218 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-06 11:47:51,220 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-06 11:47:51,220 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-06 11:48:47,113 - app.services.face_service - INFO - Recognizing face: Read 51055 bytes
+2026-05-06 11:48:47,950 - app.services.face_service - INFO - Detected 1 face(s)
+2026-05-06 11:48:49,156 - app.services.face_service - INFO - Liveness check: Laplacian variance = 37.860398364367335
+2026-05-06 11:48:49,292 - app.services.face_service - INFO - Comparing with 5 registered students
+2026-05-06 11:48:49,294 - app.services.face_service - INFO - Best distance: 0.37693537402374916
+2026-05-06 11:48:49,295 - app.services.face_service - INFO - Match found! Student: STU97ABB2, Confidence: 0.6230646259762509
+2026-05-06 12:11:11,304 - app.services.face_service - INFO - face_recognition imported from c:\users\kesha\desktop\smart-class\backend\venv\lib\site-packages\face_recognition\__init__.py
+2026-05-06 12:11:11,938 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-06 12:11:11,938 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-06 12:11:11,938 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-06 12:11:11,938 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-06 12:11:11,938 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-06 12:11:11,938 - apscheduler.scheduler - INFO - Scheduler started
+2026-05-06 12:13:15,307 - app.services.otp_service - INFO - OTP generated for sbishnoi_be23@thapar.edu: 398169
+2026-05-06 12:13:38,311 - app.utils.email_utils - INFO - Email sent successfully to sbishnoi_be23@thapar.edu
+2026-05-06 12:14:19,306 - app.services.face_service - INFO - Encoding face: Read 66494 bytes
+2026-05-06 12:14:19,670 - app.services.face_service - INFO - Found 1 faces during encoding
+2026-05-06 12:15:21,927 - app.services.otp_service - INFO - OTP generated for jsingh7_be23@thapar.edu: 838414
+2026-05-06 12:15:26,658 - app.utils.email_utils - INFO - Email sent successfully to jsingh7_be23@thapar.edu
+2026-05-06 12:16:18,231 - app.services.face_service - INFO - Recognizing face: Read 61688 bytes
+2026-05-06 12:16:18,541 - app.services.face_service - INFO - Detected 1 face(s)
+2026-05-06 12:16:19,245 - app.services.face_service - INFO - Liveness check: Laplacian variance = 94.56125758592374
+2026-05-06 12:16:19,752 - app.services.face_service - INFO - Comparing with 6 registered students
+2026-05-06 12:16:19,752 - app.services.face_service - INFO - Best distance: 0.20712523571427266
+2026-05-06 12:16:19,752 - app.services.face_service - INFO - Match found! Student: STU07DFBA, Confidence: 0.7928747642857273
+2026-05-06 12:49:28,403 - app.services.face_service - INFO - face_recognition imported from c:\users\kesha\desktop\smart-class\backend\venv\lib\site-packages\face_recognition\__init__.py
+2026-05-06 12:49:28,647 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-06 12:49:28,647 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-05-06 12:49:28,647 - app.services.scheduler_service - INFO - Background jobs scheduled (Morning Alerts: 07:00, Auto-Absent: 23:00)
+2026-05-06 12:49:28,647 - apscheduler.scheduler - INFO - Added job "job_send_morning_alerts" to job store "default"
+2026-05-06 12:49:28,647 - apscheduler.scheduler - INFO - Added job "job_mark_auto_absent" to job store "default"
+2026-05-06 12:49:28,647 - apscheduler.scheduler - INFO - Scheduler started
