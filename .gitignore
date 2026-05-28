@@ -45,3 +45,9 @@ Thumbs.db
 
 # Project Uploads
 backend/app/uploads/
+backend/uploads/
+
+# Logs and databases
+*.log
+*.sqlite
+*.db

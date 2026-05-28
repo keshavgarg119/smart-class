@@ -2,6 +2,10 @@
 
 An AI-powered attendance tracking system using face recognition technology. Built with FastAPI backend, React frontend, and Python-based face recognition.
 
+## 🌐 Live Deployment
+- **Frontend App**: [https://smart-class-ten.vercel.app](https://smart-class-ten.vercel.app)
+- **Backend API Docs**: [https://smart-class-backend-gskv.onrender.com/docs](https://smart-class-backend-gskv.onrender.com/docs)
+
 ## 🚀 Features
 
 - **Face Recognition**: Automated attendance marking using advanced face recognition
